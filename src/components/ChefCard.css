@@ -1,0 +1,23 @@
+.card{
+    height: 500px;
+    width: 400px;
+}
+
+.card .card-img{
+    display: block;
+    height: 300px;
+    width: 400px;
+}
+
+.card .card-body{
+   padding: 2rem;
+   height: 200px;
+}
+
+.card .card-body .card-restaurant{
+    padding: 15px;
+}
+
+.card .card-body .card-name{
+    
+}

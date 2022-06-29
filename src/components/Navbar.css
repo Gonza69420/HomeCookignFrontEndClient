@@ -31,7 +31,7 @@
     padding-top: 15px;
 }
 
-#nav-link{
+.nav-menu .nav-link{
     color: white;
     text-decoration: none;
     font-size: 1.2rem;

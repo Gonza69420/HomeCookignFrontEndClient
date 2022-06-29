@@ -1,0 +1,11 @@
+.starcontainer{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.starcontainer .stars{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

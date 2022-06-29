@@ -1,6 +1,6 @@
 import React from "react";
 import { RiStarSFill , RiStarSLine } from "react-icons/ri";
-
+import "./Stars.css"
 
 export const Stars = props => {
 
@@ -8,7 +8,7 @@ export const Stars = props => {
     const StarsAmount = () => {
         if(props.stars <= 1){
             return(
-                <div>
+                <div className="stars">
                     <RiStarSFill/>
                     <RiStarSLine/>
                     <RiStarSLine/>
@@ -19,7 +19,7 @@ export const Stars = props => {
         }
         else if(props.stars == 2){
             return(
-                <div>
+                <div className="stars">
                     <RiStarSFill/>
                     <RiStarSFill/>
                     <RiStarSLine/>
@@ -41,7 +41,7 @@ export const Stars = props => {
         }
         else if(props.stars == 4){
             return(
-                <div>
+                <div className="stars">
                     <RiStarSFill/>
                     <RiStarSFill/>
                     <RiStarSFill/>
@@ -52,7 +52,7 @@ export const Stars = props => {
         }
         else{
             return(
-                <div>
+                <div className="stars">
                     <RiStarSFill/>
                     <RiStarSFill/>
                     <RiStarSFill/>
@@ -64,7 +64,7 @@ export const Stars = props => {
     }
     
     return(
-        <div>
+        <div className="starcontainer">
             {StarsAmount()}
         </div>
     )
