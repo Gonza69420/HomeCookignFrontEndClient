@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+
+/* Esto para lo que encierra a las cards*/
+.wrapper{      
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;   
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 16rem));
+    gap: 2rem;
+    justify-content: center;
+    
+    
+}
+
+.card{
+    overflow: hidden;
+    box-shadow: 0 2px 20px #e1e5ee;
+    border-radius: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 200m ease-in;
+    max-width: 300px;
+    max-height: 500px;
+    min-width: 300px;
+    min-height: 400px;
+    
+}
+
+.card .card-img-top{
+    vertical-align:top;
+    display: flex;
+    align-items: flex-end;
+    height: 12rem;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card .card-tittle{
+    padding: 1rem;
+}
+
+.card .card-description{
+    padding: 0 1rem;
+}
+
+.cardRestaurant{
+    overflow: hidden;
+    box-shadow: 0 2px 20px #979a9e;
+    border-radius: 0.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 200m ease-in;
+    width: 300px;
+    height: 400px;
+   
+}
+
+.cardRestaurant .card-body{
+    padding: 50px;
+}
+
+.cardRestaurant .card-body .cardtitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:xx-large;
+}

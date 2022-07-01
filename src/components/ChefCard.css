@@ -1,23 +1,23 @@
-.card{
+.card-chef{
     height: 500px;
     width: 400px;
 }
 
-.card .card-img{
+.card-chef .card-img{
     display: block;
     height: 300px;
     width: 400px;
 }
 
-.card .card-body{
+.card-chef .card-body{
    padding: 2rem;
    height: 200px;
 }
 
-.card .card-body .card-restaurant{
+.card-chef .card-body .card-restaurant{
     padding: 15px;
 }
 
-.card .card-body .card-name{
+.card-chef .card-body .card-name{
     font-weight: bold;
 }

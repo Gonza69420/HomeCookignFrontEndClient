@@ -1,0 +1,23 @@
+.imageprofile{
+    float: left;
+    width: 250px;
+    height: 250px;
+    margin: 20px;
+    shape-outside: circle();
+    clip-path: circle();
+}
+
+.imageprofile .image{
+    position: relative;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+
+.imageprofile .image .imagespecific{
+    height: 250px;
+    width: 250px; 
+}
+
