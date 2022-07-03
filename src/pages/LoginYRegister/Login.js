@@ -18,7 +18,8 @@ export const Login = () => {
             },
             body: JSON.stringify({
                 mail: data.username,
-                password: data.password
+                password: data.password,
+                role: "ROLE_CLIENT"
             })
                 })
             .then(res =>{

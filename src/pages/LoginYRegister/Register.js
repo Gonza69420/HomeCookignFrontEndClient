@@ -12,7 +12,8 @@ export const Register = () => {
         firstName: '',
         lastName: '',
         phone: '',
-        address: ''
+        address: '',
+        dni: ''
 
     })
 
@@ -29,7 +30,9 @@ export const Register = () => {
                 firstName: data.firstName,
                 lastName: data.lastName,
                 phoneNumber: data.phone,
-                address: data.address
+                address: data.address,
+                dni: data.dni,
+                role: "ROLE_CLIENT"
             })
              })
             .then(res => res.json())
@@ -82,6 +85,10 @@ export const Register = () => {
             <Form.Group className="mb-3 mt-3 w-25 m-auto" controlId="exampleForm.ControlInput6">
                 <Form.Label>Adress</Form.Label>
                 <Form.Control type="text" placeholder="Adress" name="address" onChange={handleChange}/>
+            </Form.Group>
+            <Form.Group className="mb-3 mt-3 w-25 m-auto" controlId="exampleForm.ControlInput7">
+                <Form.Label>DNI</Form.Label>
+                <Form.Control type="text" placeholder="DNI" name="dni" onChange={handleChange}/>
             </Form.Group>
             
             <Button variant="primary" type="submit" className="primary">
