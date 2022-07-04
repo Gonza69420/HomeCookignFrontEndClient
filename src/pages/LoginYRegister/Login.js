@@ -26,18 +26,20 @@ export const Login = () => {
                 if (res.status === 401 || res.status === 400 || data.username === '' || data.password === '') { 
                     throw new Error("Invalid credentials");
                 } 
-                else {
-                    sessionStorage.setItem('token', res.token);
+                else { 
+                    return res.json(); 
                 }
                 })
             .then(data => {
-                console.log(sessionStorage.getItem('token'));
+                sessionStorage.setItem('token', data.accessToken);
                 window.location.href = '/mainPage';
+                
             }
             )).catch(err => console.log(err));
             
        
     }
+    
 
     const handleChange = (e) => {
         console.log(e.target.value);
@@ -76,5 +78,6 @@ export const Login = () => {
         </Container>
        </div> 
     )
+   
 }
 
