@@ -1,0 +1,36 @@
+.centerItems{
+    margin: auto;
+    width: 50%;
+}
+.centerItems .cancelbutton{
+    padding: 10px;
+    width: 69px;
+}
+
+.centerItems .successbutton{
+    padding: 10px;
+    width: 69px;
+}
+
+
+.MenuImage{
+    display: flex;
+    max-height: 250px;
+    max-width: 100%;
+    margin-left: auto; 
+    margin-right: 0;
+}
+
+.topright{
+    margin-bottom: auto;
+    margin-top: 0;
+}
+
+.totheright{
+    text-align: left;
+}
+
+.totheright .fontbigger{
+    font-size: larger;
+}
+

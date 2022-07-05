@@ -1,0 +1,42 @@
+.containerpedidos{
+    box-shadow: 0 2px 20px #bbbdc2;
+    border-radius: 0.2rem;
+    display: flex;
+    width: 500px;
+    height: 300px;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 200m ease-in;
+
+}
+
+.containerpedidos .TittlePart{
+    display:flex;
+    flex-direction: row;
+    width: 400px;
+    padding: 10px;
+    text-align: start;
+}
+
+.containerpedidos .TittlePart .cardimg{
+        vertical-align:top;
+        display: flex;
+        align-items: flex-end;
+        width: 100px;
+        height: 100px;
+        shape-outside: circle();
+        clip-path: circle();
+        margin-left: auto;
+}
+
+.containerpedidos .monto{
+    padding: 10px;
+    text-align: start;
+    font-weight: bold;
+
+}
+
+.containerpedidos .TittlePart .Name{
+    font-weight: bold;
+    padding-bottom: 5px;
+}

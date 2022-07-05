@@ -1,0 +1,21 @@
+.backgroundblack{
+    height: 100%;
+    background-color: rgb(104, 104, 104);
+    min-height: 1070px;
+}
+
+.inputBio{
+    width: 100%;
+    min-height: 300px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    
+}
+
+.inputBio:focus{
+    border: 3px solid #555;
+
+}
+

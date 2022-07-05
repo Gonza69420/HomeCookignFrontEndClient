@@ -14,15 +14,18 @@ export  const MainPage = () => {
    const [Data , setData] = useState();
    const [searchInput, setSearchInput] = useState('');
 
-
+    const redirigirPerfilChef = () =>{
+      window.location.href = '/chefProfile';
+    }
   
     useEffect(() => {
-        console.log(sessionStorage.getItem('token').toString());
+        console.log(sessionStorage.getItem('token'));
         if(sessionStorage.getItem('token') === null){
             window.location.href = '/';
         }
     }, [])
 
+    /*
     useEffect(() => {
         fetch("http://localhost:8080/getChefs")
       .then(response => response.json())
@@ -31,7 +34,7 @@ export  const MainPage = () => {
       })
     }, [])
     
-
+*/
     const searchItems = (event) => {
       setSearchInput(event.target.value);
       console.log(event.target.value);
@@ -63,10 +66,8 @@ export  const MainPage = () => {
               
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
-              {Data.map((item) => (
-                <></>
-              ))}
-              <ChefCard url="https://dcom-prod.imgix.net/files/2020-07/CHEF%20DONATO%20DE%20SANTIS_PORTADA.jpg?w=1920&h=1440&crop=focalpoint&fp-x=0.5&fp-y=0.1&fit=crop&auto=compress&q=75" name="Donato De Santi" Restaurante="Restaurante Italiano Generico" stars={1}/>
+              
+              <ChefCard url="https://dcom-prod.imgix.net/files/2020-07/CHEF%20DONATO%20DE%20SANTIS_PORTADA.jpg?w=1920&h=1440&crop=focalpoint&fp-x=0.5&fp-y=0.1&fit=crop&auto=compress&q=75" name="Donato De Santi" Restaurante="Restaurante Italiano Generico" stars={1} onClick={redirigirPerfilChef}/>
             </Stack>
           </div>
         </div>

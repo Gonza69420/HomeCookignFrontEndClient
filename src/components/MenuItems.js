@@ -17,7 +17,7 @@ export const MenuItems= [
     {
         id: 3,
         title:"Pedidos",
-        url: "/mainPage",
+        url: "/pedidosCliente",
         cName: "nav-link"
 
     },

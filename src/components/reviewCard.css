@@ -1,0 +1,14 @@
+.reviewCardContainer{
+    width: 100%;
+    outline: solid;
+    min-height: 100px;
+}
+
+
+.reviewCardContainer .ReviewText{
+    text-align: start;
+    margin-left: 10px;
+    margin-top: 5px ;
+    margin-bottom: 10px;
+}
+

@@ -6,7 +6,7 @@ export const ChefCard = props => {
 
 
     return(
-            <div className="card-chef">
+            <div className="card-chef" onClick={props.onClick}>
                 <img className="card-img" src={props.url} alt='Card image cap'/>
                 <div className="card-body">
                     <h5 className="card-name">{props.name}</h5>
