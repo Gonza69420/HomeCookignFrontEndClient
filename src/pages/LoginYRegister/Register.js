@@ -17,6 +17,13 @@ export const Register = () => {
 
     })
 
+    useEffect(() => {
+        if(sessionStorage.getItem('token') !== null){
+          console.log(sessionStorage.getItem('token'));
+            window.location.href = '/mainPage';
+        }
+    }, [])
+    
     const onSubmit = (e) => {
         console.log(data);
             fetch("http://localhost:8080/api/auth/signup", {

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { Form, Button, Container } from "react-bootstrap";
 
 
@@ -7,6 +7,13 @@ export const Login = () => {
         username: '',
         password: ''
     })
+
+    useEffect(() => {
+        if(sessionStorage.getItem('token') !== null){
+          console.log(sessionStorage.getItem('token'));
+            window.location.href = '/mainPage';
+        }
+    }, [])
 
     const onSubmit = (e) => {
         console.log(data);
@@ -27,11 +34,12 @@ export const Login = () => {
                     throw new Error("Invalid credentials");
                 } 
                 else { 
-                    return res.json(); 
+                    sessionStorage.setItem('token', res.accessToken);
+                    sessionStorage.setItem("mail" , data.username);
+
                 }
                 })
             .then(data => {
-                sessionStorage.setItem('token', data.accessToken);
                 window.location.href = '/mainPage';
                 
             }

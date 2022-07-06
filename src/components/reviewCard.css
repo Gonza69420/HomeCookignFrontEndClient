@@ -1,7 +1,8 @@
 .reviewCardContainer{
     width: 100%;
-    outline: solid;
     min-height: 100px;
+    border-radius: 4px;
+    border: solid 1px #b1b1b1;
 }
 
 
@@ -12,3 +13,17 @@
     margin-bottom: 10px;
 }
 
+.reviewimageprofile .image{
+    
+    position: relative;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+
+.reviewimageprofile .image .imagespecific{
+    width: 100%;
+    height: auto; 
+}

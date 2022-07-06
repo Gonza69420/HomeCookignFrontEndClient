@@ -36,6 +36,20 @@
     height: auto;  
 }
 
+
+.imageprofile .personalizeimage .imagespecific:hover{
+    filter: grayscale(0%);
+}
+
+.imageprofile .personalizeimage .inputCoso{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
 .reviewimageprofile{
     float: left;
     width: 50px;
@@ -45,18 +59,5 @@
     clip-path: circle();
 }
 
-.reviewimageprofile .image{
-    
-    position: relative;
-    display: flex;
-    align-content: center;
-    flex-wrap: wrap;
-    flex-direction: column;
-}
 
-
-.reviewimageprofile .image .imagespecific{
-    width: 100%;
-    height: auto; 
-}
 

@@ -17,6 +17,8 @@ export const ClientProfile = () => {
     });
 
 
+    const uploadImage = (e) => {}
+
     const handlePersonalizar = () => {
         setPersonalizar(!personalizar);
     }
@@ -48,7 +50,8 @@ export const ClientProfile = () => {
                     }
                     {!personalizar &&
                     <Profileimage classname="imageprofile" src="https://dalstrong.com/s/files/1/1728/9189/files/Guga-Dalstrong_1024x1024.jpg?v=1608322553&em-origin=cdn.shopify.com" personalizar={false}/>
-                    }                    <h1>Guga Foods </h1>
+                    }
+                    <h1>Guga Foods </h1>
                     <button type="button" onClick={handlePersonalizar} className="btn btn-secondary btn-lg">
                         <TbPencil/> 
                     </button>
