@@ -2,15 +2,16 @@ import React from "react";
 import "./pedidosAceptarRechazar.css"
 import { BsCheckCircleFill, BsFillXCircleFill } from "react-icons/bs";
 
-export const PedidosAceptarRechazar = props => {
+export const PedidosPasados = props => {
+
 
     const calculateMonto = (montos) => {
         var monto = montos;
         return parseInt(monto*1.05);
     }
 
-return(
-    <div className="containerpedidos">
+    return(
+        <div className="containerpedidos">
         <div className="TittlePart">
             <h3 className="Name"> {props.name} </h3>
             <img className="cardimg" src={props.url} alt='Card image'/>
@@ -26,11 +27,7 @@ return(
         </div>
         <div className="containerMonto">
             <h3 className="monto">Monto: ${calculateMonto(props.monto)}</h3>
-            <div className="containerBotones">
-                <button type="button" class="btn btn-success btn-lg"><BsCheckCircleFill/></button>
-                <button type="button" class="btn btn-danger btn-lg"><BsFillXCircleFill/></button>
-            </div>
         </div>
     </div>
-)
-} 
+    )
+}
