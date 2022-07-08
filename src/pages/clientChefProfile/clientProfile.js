@@ -6,18 +6,18 @@ import {RestaurantCard} from '../../components/RestaurantCard';
 import {MenuCard} from '../../components/MenuCard';
 import "./clientProfile.css"
 import { TbPencil } from "react-icons/tb";
-
-
+import { storage } from '../../firebase';
+import { ref } from 'firebase/storage';
 export const ClientProfile = () => {
     const [personalizar , setPersonalizar] = useState(false);
+    const [imageurl, setImageUrl] = useState('');
     const [data, setData] = useState({
         bio: "Empty Bio",
         firstName: "",
         lastName: ""
     });
+    const imageRef = ref(storage , "images/client/" + sessionStorage.getItem("mail"));
 
-
-    const uploadImage = (e) => {}
 
     const handlePersonalizar = () => {
         setPersonalizar(!personalizar);
@@ -40,16 +40,28 @@ export const ClientProfile = () => {
         }
     }
 
+    useEffect(() => {
+        storage.ref({imageRef}).getDownloadURL().then(url => {
+        setImageUrl(url);
+        }).catch(err => {
+        console.log(err);
+        storage.ref("images/bank").getDownloadURL().then(url => {
+        setImageUrl(url);
+          })
+        }
+        )
+    }, [])
+
     return(
         <div className='backgroundblack'>
             <Navbar/>
             <div className="container mt-5 bg-white">
                 <Stack direction="horizontal" className='justify-content-start' gap={3}>
                 {personalizar && 
-                    <Profileimage classname="imageprofile" src="https://dalstrong.com/s/files/1/1728/9189/files/Guga-Dalstrong_1024x1024.jpg?v=1608322553&em-origin=cdn.shopify.com" personalizar={true}/> 
+                    <Profileimage classname="imageprofile" src={imageurl} personalizar={true}/> 
                     }
                     {!personalizar &&
-                    <Profileimage classname="imageprofile" src="https://dalstrong.com/s/files/1/1728/9189/files/Guga-Dalstrong_1024x1024.jpg?v=1608322553&em-origin=cdn.shopify.com" personalizar={false}/>
+                    <Profileimage classname="imageprofile" src={imageurl} personalizar={false}/>
                     }
                     <h1>Guga Foods </h1>
                     <button type="button" onClick={handlePersonalizar} className="btn btn-secondary btn-lg">

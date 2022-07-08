@@ -33,13 +33,14 @@ export const Login = () => {
                 if (res.status === 401 || res.status === 400 || data.username === '' || data.password === '') { 
                     throw new Error("Invalid credentials");
                 } 
-                else { 
-                    sessionStorage.setItem('token', res.accessToken);
+                else {
                     sessionStorage.setItem("mail" , data.username);
+                    return res.json(); 
 
                 }
                 })
             .then(data => {
+                sessionStorage.setItem('token', data.accessToken);
                 window.location.href = '/mainPage';
                 
             }

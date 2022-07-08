@@ -45,6 +45,7 @@ export const Register = () => {
             .then(res => res.json())
          .then(data => {
                 console.log(data);
+                window.location.href = '/';
           }
            )
             .catch(err => console.log(err));
