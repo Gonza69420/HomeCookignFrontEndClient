@@ -29,9 +29,13 @@
     align-content: center;
     flex-wrap: wrap;
     flex-direction: column;
+    width: 100%;
+    height: auto; 
 }
 
-.imageprofile .personalizeimage .imagespecific{
+
+
+.imageprofile .personalizeimage .imgupload .imagespecific{
     width: 100%;
     height: auto;  
 }

@@ -7,16 +7,18 @@ import {MenuCard} from '../../components/MenuCard';
 import "./clientProfile.css"
 import { TbPencil } from "react-icons/tb";
 import { storage } from '../../firebase';
-import { ref } from 'firebase/storage';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 export const ClientProfile = () => {
     const [personalizar , setPersonalizar] = useState(false);
-    const [imageurl, setImageUrl] = useState('');
+    const [imageurl, setImageUrl] = useState();
     const [data, setData] = useState({
         bio: "Empty Bio",
         firstName: "",
         lastName: ""
     });
-    const imageRef = ref(storage , "images/client/" + sessionStorage.getItem("mail"));
+    const storage = getStorage();
+
+    const imageRef = ref(storage , "images/client/" + sessionStorage.getItem("mail") );
 
 
     const handlePersonalizar = () => {
@@ -41,15 +43,33 @@ export const ClientProfile = () => {
     }
 
     useEffect(() => {
-        storage.ref({imageRef}).getDownloadURL().then(url => {
-        setImageUrl(url);
-        }).catch(err => {
-        console.log(err);
-        storage.ref("images/bank").getDownloadURL().then(url => {
-        setImageUrl(url);
-          })
-        }
-        )
+        
+        getDownloadURL(imageRef)
+        .then((url) => {
+          setImageUrl(url);
+        })
+        .catch((error) => {
+          // A full list of error codes is available at
+          // https://firebase.google.com/docs/storage/web/handle-errors
+          switch (error.code) {
+            case 'storage/object-not-found':
+                setImageUrl("https://firebasestorage.googleapis.com/v0/b/homecooking-346302.appspot.com/o/images%2Fblank.jpg?alt=media&token=ee277b5c-bd58-4f5d-b4aa-cb90f9adf0d2");
+              // File doesn't exist
+              break;
+            case 'storage/unauthorized':
+              // User doesn't have permission to access the object
+              break;
+            case 'storage/canceled':
+              // User canceled the upload
+              break;
+      
+            // ...
+      
+            case 'storage/unknown':
+              // Unknown error occurred, inspect the server response
+              break;
+          }
+        });
     }, [])
 
     return(
