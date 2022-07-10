@@ -37,8 +37,6 @@ export const Profileimage = props => {
                 <input type="file" className="inputCoso" id="imgupload" onChange={(event) => {
                     setImageUpload(event.target.files[0]);
                     uploadImage();
-                   
-                   
                     } } />
                 <label for='imgupload'><img className="imagespecific"src={props.src}/></label>
             </div>

@@ -10,9 +10,10 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import "./mainPage.css"
 
 export  const MainPage = () => {
-   const[dropdown , setDropdown] = useState("Menu");
-   const [Data , setData] = useState();
-   const [searchInput, setSearchInput] = useState('');
+    const[dropdown , setDropdown] = useState("Menu");
+    const [Data , setData] = useState();
+    const [searchInput, setSearchInput] = useState('');
+    const [clientData , setclientData] = useState([]);
 
     const redirigirPerfilChef = () =>{
       window.location.href = '/chefProfile';
@@ -25,23 +26,22 @@ export  const MainPage = () => {
         }
     }, [])
 
-    
     useEffect(() => {
-        fetch("http://localhost:8080/api/auth/getChefs", {
-          method: "GET",
-          headers: {
-              "Content-Type": "application/json"
-          }
-        })
-        .then(response => {
-      
-        return response.json()
-        })
-      .then(data => {
-        console.log(data); 
-        setData({data});
-      }).catch(err => console.log(err));
-    }, [])
+      fetch(`http://localhost:8080/api/auth/getClient/${sessionStorage.getItem('mail')}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `token ${sessionStorage.getItem('token')}`
+        }
+    }).then(response => response.json())
+    .then(data => {
+      console.log(data);
+      setclientData(data);
+    }).catch(error => {
+      console.log(error);
+    })
+    },[]);
+    
     
 
     const searchItems = (event) => {
@@ -57,9 +57,10 @@ export  const MainPage = () => {
     return(
         <div>
           <Navbar/>
-          <div className='container-fluid mt-5'>           
-            <h1>MainPage</h1>
-          
+          <div className='container-fluid mt-5'>  
+            <div className="containerTittles">
+              <h1 className='Tittles'>Welcome {clientData.firstName} {clientData.lastName}!</h1>
+            </div>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
               <div className='fillhorizontal'>
                 <DropdownButton

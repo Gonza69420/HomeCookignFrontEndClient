@@ -3,3 +3,17 @@
     width: 1900px;
     
 }
+
+.containerTittles{
+    margin-left: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.containerTittles .Tittles{
+    text-align: left;
+    padding: 10px;
+    background-color: rgb(238, 142, 64);
+    width: fit-content;
+    color: white;
+}
