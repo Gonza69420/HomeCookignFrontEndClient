@@ -9,7 +9,7 @@ export const ChefCard = props => {
             <div className="card-chef" onClick={props.onClick}>
                 <img className="card-img" src={props.url} alt='Card image cap'/>
                 <div className="card-body">
-                    <h5 className="card-name">{props.name}</h5>
+                    <h5 className="card-name">{props.firstname} {props.lastname}</h5>
                     <Stars className="starss" stars={props.stars}/>
                     <h5 className="card-restaurant">{props.Restaurante}</h5>
                 </div>

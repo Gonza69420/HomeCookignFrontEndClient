@@ -11,9 +11,9 @@ import "./mainPage.css"
 
 export  const MainPage = () => {
     const[dropdown , setDropdown] = useState("Menu");
-    const [Data , setData] = useState();
     const [searchInput, setSearchInput] = useState('');
     const [clientData , setclientData] = useState([]);
+    const [chefData , setchefData] = useState([]);
 
     const redirigirPerfilChef = () =>{
       window.location.href = '/chefProfile';
@@ -27,6 +27,7 @@ export  const MainPage = () => {
     }, [])
 
     useEffect(() => {
+
       fetch(`http://localhost:8080/api/auth/getClient/${sessionStorage.getItem('mail')}`, {
         method: 'GET',
         headers: {
@@ -54,6 +55,25 @@ export  const MainPage = () => {
       setDropdown(e);
     }
 
+    useEffect(() => {
+      var raw = "";
+
+      var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+
+      fetch("http://localhost:8080/api/auth/getAllAvailableChefProfile", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          console.log(JSON.parse(result));
+          chefData[0] = JSON.parse(result);
+          console.log(chefData);
+
+        })
+        .catch(error => console.log('error', error));
+    }, [])
+
     return(
         <div>
           <Navbar/>
@@ -76,7 +96,12 @@ export  const MainPage = () => {
               
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
-             
+              
+            {chefData[0].map((chef,index) => {
+              return(
+              <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="Tumama" onClick={() => console.log("3")}/>
+              )
+            })}
             </Stack>
           </div>
         </div>
