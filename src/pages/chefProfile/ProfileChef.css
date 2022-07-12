@@ -34,3 +34,9 @@
     font-size: larger;
 }
 
+.bg-dark .container.mt-5.bg-white .containercards{
+    display: flex;
+   max-width: 100%;
+   flex-direction: row;
+   overflow-x: scroll;
+}
