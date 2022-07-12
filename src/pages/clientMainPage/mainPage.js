@@ -14,11 +14,10 @@ export  const MainPage = () => {
     const [searchInput, setSearchInput] = useState('');
     const [clientData , setclientData] = useState([]);
     const [chefData , setchefData] = useState([]);
+   
 
-    const redirigirPerfilChef = () =>{
-      window.location.href = '/chefProfile';
-    }
-  
+
+   
     useEffect(() => {
         console.log(sessionStorage.getItem('token'));
         if(sessionStorage.getItem('token') === null){
@@ -27,7 +26,7 @@ export  const MainPage = () => {
     }, [])
 
     useEffect(() => {
-
+      console.log("3")
       fetch(`http://localhost:8080/api/auth/getClient/${sessionStorage.getItem('mail')}`, {
         method: 'GET',
         headers: {
@@ -41,7 +40,9 @@ export  const MainPage = () => {
     }).catch(error => {
       console.log(error);
     })
-    },[]);
+
+    console.log("4")
+    }, []);
     
     
 
@@ -79,7 +80,7 @@ export  const MainPage = () => {
           <Navbar/>
           <div className='container-fluid mt-5'>  
             <div className="containerTittles">
-              <h1 className='Tittles'>Welcome {clientData.firstName} {clientData.lastName}!</h1>
+              <h1 className='Tittles'>Welcome {clientData?.clientProfile?.firstName} {clientData?.clientProfile?.lastName}!</h1>
             </div>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
               <div className='fillhorizontal'>
@@ -97,9 +98,9 @@ export  const MainPage = () => {
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
               
-            {chefData[0].map((chef,index) => {
+            {chefData[0]?.map((chef,index) => {
               return(
-              <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="Tumama" onClick={() => console.log("3")}/>
+              <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="Tumama" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
               )
             })}
             </Stack>

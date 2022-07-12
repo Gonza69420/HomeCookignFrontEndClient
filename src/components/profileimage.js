@@ -16,14 +16,14 @@ export const Profileimage = props => {
         uploadBytes(imageRef , imageUpload).then(() => {
             console.log("Uploaded");
             setImageUpload(null);
-
+            setClientImage(imageRef);
         }
         ).catch(err => {
             console.log(err);
         }
         );
 
-        setClientImage(imageRef);
+
     }
 
 
@@ -57,15 +57,17 @@ export const Profileimage = props => {
     }
 
     const getURL = (imageRef) => {
-        
+        console.log(imageRef)
         getDownloadURL(imageRef)
         .then((url) => {
           setImage(url);
         })
         .catch((error) => {
+          console.log(error);
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
+
             case 'storage/object-not-found':
               // File doesn't exist
               break;
@@ -98,7 +100,7 @@ export const Profileimage = props => {
                     setImageUpload(event.target.files[0]);
                     uploadImage();
                     } } />
-                <label for='imgupload'><img className="imagespecific"src={props.src}/></label>
+                <label className="label" for='imgupload'><img className="imagespecific"src={props.src}/></label>
             </div>
             }
         </div>

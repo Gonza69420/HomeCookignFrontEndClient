@@ -30,10 +30,10 @@ export const ClientProfile = () => {
     }
 
     const handleChange = (e) => {
-        console.log(e.target.value);
+        console.log(e.target.defaultValue);
         setData({
             ...data,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.defaultValue
         })
     }
     
@@ -46,35 +46,7 @@ export const ClientProfile = () => {
         }
     }
 
-    useEffect(() => {
-        
-        getDownloadURL(imageRef)
-        .then((url) => {
-          setImageUrl(url);
-        })
-        .catch((error) => {
-          // A full list of error codes is available at
-          // https://firebase.google.com/docs/storage/web/handle-errors
-          switch (error.code) {
-            case 'storage/object-not-found':
-                setImageUrl("https://firebasestorage.googleapis.com/v0/b/homecooking-346302.appspot.com/o/images%2Fblank.jpg?alt=media&token=ee277b5c-bd58-4f5d-b4aa-cb90f9adf0d2");
-              // File doesn't exist
-              break;
-            case 'storage/unauthorized':
-              // User doesn't have permission to access the object
-              break;
-            case 'storage/canceled':
-              // User canceled the upload
-              break;
-      
-            // ...
-      
-            case 'storage/unknown':
-              // Unknown error occurred, inspect the server response
-              break;
-          }
-        });
-    }, [])
+  
 
     const updateClientbio = () => {
       var myHeaders = new Headers();
@@ -99,8 +71,6 @@ export const ClientProfile = () => {
     }
 
     useEffect(() => {
-      
-
       var requestOptions = {
         method: 'GET',
         
@@ -110,9 +80,8 @@ export const ClientProfile = () => {
       fetch("http://localhost:8080/api/auth/getClientProfile/" + sessionStorage.getItem("mail"), requestOptions)
         .then(response => response.text())
         .then(result => {
-        
-          setData(JSON.parse(result));
-          console.log(data);
+          setData({...data, ...JSON.parse(result)});
+          console.log(data)
         })
         .catch(error => console.log('error', error));
 

@@ -7,8 +7,12 @@ import { MainPage } from './pages/clientMainPage/mainPage';
 import { ClientProfile } from './pages/clientChefProfile/clientProfile';
 import { ProfileChef } from './pages/chefProfile/ProfileChef';
 import {PedidosCliente} from "./pages/pedidos/PedidosCliente"
+import { Chat } from './pages/chat/Chat';
+
+
 
 function App() {
+  
   return (
     <div className="App">
       <Router>
@@ -17,8 +21,9 @@ function App() {
           <Route path="/register" element={<Register/>} />
           <Route path="/mainPage" element= {<MainPage/>}/>
           <Route path="/profile" element={<ClientProfile/>}/>
-          <Route path='/chefProfile' element={<ProfileChef/>}/>
+          <Route path='/chefProfile/:id' element={<ProfileChef/>}/>
           <Route path='/pedidosCliente' element={<PedidosCliente/>}/>
+          <Route path='/chat' element={<Chat/>}/>
         </Routes>
       </Router>
     </div>
