@@ -96,9 +96,9 @@ export const PedidosCliente = () =>{
                 <h2 className="Tittles">Pedidos Aceptados</h2>
                 </div>
                 <div className="ContainerPedidosPage">
-                    {isSolicitudesPasadasEmpty &&
+                    {solicitudesPasadas.length > 0 &&
                     <>
-                    {solicitudesPasadas[0]?.map((solicitud, index) => {
+                    {solicitudesPasadas[0].map((solicitud, index) => {
                         return(
                         <PedidosPasados name={solicitud.fullNameChef} url={solicitud.chefPhoto} Menu={solicitud.menuName} Fecha={solicitud.date} Hora={solicitud.hour} Localizacion={solicitud.address} monto={solicitud.price}/>                  
                     )})}

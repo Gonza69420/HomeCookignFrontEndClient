@@ -68,6 +68,7 @@ export  const MainPage = () => {
              console.log(word)
             if(word.includes(event.target.value) ){
               setfilteredData(item)
+              console.log(item)
               console.log(filteredData)
               setisFilteredDataEmpty(true);
             }else{
@@ -129,12 +130,14 @@ export  const MainPage = () => {
               
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
-            {isFilteredDataEmpty &&
+            {filteredData.length > 0 &&
 
             <>
-              {filteredData[0]?.map(chef => {
+              {filteredData[0].map(chef => {
                 return(
+                  <>   
                 <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
+                </>
                 )
               })}
             </>

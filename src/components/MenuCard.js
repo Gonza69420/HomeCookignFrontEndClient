@@ -34,8 +34,6 @@ export const MenuCard = props => {
 
 
 
-                <h3 className='d-flex justify-content-start mt-4 mb-4'>Reviews:</h3>
-                <ReviewCard firstname="Raul" lastname="Salvio" review="Interesante el concepto. Mercado Libre es una herramienta" src="https://pbs.twimg.com/media/BcFrAwtIYAAsqsE.jpg" stars={3}/>
             </Popup>
         
         }
