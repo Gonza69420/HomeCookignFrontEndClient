@@ -10,14 +10,14 @@ import DropdownButton from 'react-bootstrap/DropdownButton';
 import "./mainPage.css"
 
 export  const MainPage = () => {
-    const[dropdown , setDropdown] = useState("Menu");
+    const[dropdown , setDropdown] = useState("Chef");
     const [searchInput, setSearchInput] = useState('');
     const [clientData , setclientData] = useState([]);
     const [chefData , setchefData] = useState([]);
     const [filteredData ,setfilteredData] = useState([]);
     const [isChefDataEmpty , setisChefDataEmpty] = useState(false);
 
-   
+   const[isFilteredDataEmpty , setisFilteredDataEmpty] = useState(false);
     useEffect(() => {
         console.log(sessionStorage.getItem('token'));
         if(sessionStorage.getItem('token') === null){
@@ -57,9 +57,28 @@ export  const MainPage = () => {
       }
 
       if(dropdown === "Chef"){
-          
+        if(event.target.value === ''){
+          setfilteredData(chefData);
+         setisFilteredDataEmpty(true);
+        }else{
+          setfilteredData([])
+          let word
+          chefData[0]?.filter(item => {
+             word = item.firstName
+             console.log(word)
+            if(word.includes(event.target.value) ){
+              setfilteredData(item)
+              console.log(filteredData)
+              setisFilteredDataEmpty(true);
+            }else{
+              
+
+            }
+          }
+        )
       }
     }
+  }
 
     const handleSelect = (e) => {
       console.log(e);
@@ -110,17 +129,19 @@ export  const MainPage = () => {
               
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
-            {isChefDataEmpty &&
+            {isFilteredDataEmpty &&
+
             <>
-              {chefData[0].map(chef => {
+              {filteredData[0]?.map(chef => {
                 return(
                 <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
                 )
               })}
             </>
-          }
+}
             </Stack>
           </div>
         </div>
     )
-}
+        }
+

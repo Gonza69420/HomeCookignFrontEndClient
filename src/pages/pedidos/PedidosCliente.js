@@ -35,7 +35,7 @@ export const PedidosCliente = () =>{
         .then(result => {
             console.log(result)
             solicitudesParaAceptar[0] = JSON.parse(result);
-
+            
             if(solicitudesParaAceptar[0][0].id !== undefined){
                 setIsSolicitudesParaAceptarEmpty(true);
             }
