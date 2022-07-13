@@ -14,7 +14,7 @@ export  const MainPage = () => {
     const [searchInput, setSearchInput] = useState('');
     const [clientData , setclientData] = useState([]);
     const [chefData , setchefData] = useState([]);
-   
+    const [filteredData ,setfilteredData] = useState([]);
 
 
    
@@ -37,6 +37,8 @@ export  const MainPage = () => {
     .then(data => {
       console.log(data);
       setclientData(data);
+      sessionStorage.setItem('fullName', data.fullName);
+
     }).catch(error => {
       console.log(error);
     })
@@ -48,7 +50,21 @@ export  const MainPage = () => {
 
     const searchItems = (event) => {
       setSearchInput(event.target.value);
-      console.log(event.target.value);
+
+      console.log(dropdown)
+      if(dropdown === "Menu"){
+
+      }
+
+      if(dropdown === "Chef"){
+          if(searchInput === ''){
+            setfilteredData(chefData);
+          }
+          else{
+            setfilteredData(chefData.filter(chef => chef.firstName.toLowerCase().includes(searchInput.toLowerCase())));
+          
+        }
+      }
     }
 
     const handleSelect = (e) => {
@@ -70,7 +86,6 @@ export  const MainPage = () => {
           console.log(JSON.parse(result));
           chefData[0] = JSON.parse(result);
           console.log(chefData);
-
         })
         .catch(error => console.log('error', error));
     }, [])
@@ -98,9 +113,9 @@ export  const MainPage = () => {
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
               
-            {chefData[0]?.map((chef,index) => {
+            {filteredData.map(chef => {
               return(
-              <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="Tumama" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
+              <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
               )
             })}
             </Stack>

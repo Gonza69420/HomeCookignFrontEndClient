@@ -40,3 +40,8 @@
    flex-direction: row;
    overflow-x: scroll;
 }
+
+.totheright{
+    text-align: left;
+}
+

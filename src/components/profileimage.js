@@ -2,32 +2,32 @@ import React, { useEffect, useState } from "react";
 import "./profileimage.css"
 import { storage } from "../firebase";
 import { ref , uploadBytes, getDownloadURL} from "firebase/storage";
-
 export const Profileimage = props => {
     const [personalizar , setPersonalizar] = useState(!props.personalizar);
     const [imageUpload , setImageUpload] = useState(null);
+    const [imageRef , setImageRef] = useState("");
     const [image , setImage] = useState("");
-    const uploadImage = () => {
-        console.log(sessionStorage.getItem("token"));
 
+    const uploadImage = () => {
         console.log(sessionStorage.getItem("mail"));
         if(imageUpload === null) return;
-        const imageRef = ref(storage , "images/client/" + sessionStorage.getItem("mail"));
+        console.log("image is not null");
+        const imageRef = ref(storage , "images/chef/" + sessionStorage.getItem("mail"));
         uploadBytes(imageRef , imageUpload).then(() => {
             console.log("Uploaded");
-            setImageUpload(null);
-            setClientImage(imageRef);
+            setImageRef(imageRef);
         }
         ).catch(err => {
             console.log(err);
         }
         );
 
-
     }
 
-
-    const setClientImage = (imageRef) => {
+    useEffect(() => {
+        if(imageUpload === null) return;
+        uploadImage();
+        if(imageRef === "") return;
         getURL(imageRef)
         console.log(image)
         if(image === "") return;
@@ -45,29 +45,30 @@ export const Profileimage = props => {
         redirect: 'follow'
         };
 
-        fetch("http://localhost:8080/api/auth/editClientImage/" + sessionStorage.getItem("mail"), requestOptions)
+        fetch("http://localhost:8080/api/auth/editChefImage/" + sessionStorage.getItem("mail"), requestOptions)
         .then(response => response.text())
         .then(result => {
+            setImageUpload(null);
             console.log(result)
-            window.location.reload(false);
+            window.location.reload();
 
         }
         )
         .catch(error => console.log('error', error));
-    }
+
+    }, [image , imageRef, imageUpload])
+
 
     const getURL = (imageRef) => {
-        console.log(imageRef)
+        console.log(imageRef);
         getDownloadURL(imageRef)
         .then((url) => {
           setImage(url);
         })
         .catch((error) => {
-          console.log(error);
           // A full list of error codes is available at
           // https://firebase.google.com/docs/storage/web/handle-errors
           switch (error.code) {
-
             case 'storage/object-not-found':
               // File doesn't exist
               break;
@@ -87,7 +88,6 @@ export const Profileimage = props => {
         });
     }
 
-
     return(
         <div className={props.classname}>
             {personalizar ?
@@ -98,7 +98,8 @@ export const Profileimage = props => {
             <div className="personalizeimage">
                 <input type="file" className="inputCoso" id="imgupload" onChange={(event) => {
                     setImageUpload(event.target.files[0]);
-                    uploadImage();
+                   
+                   
                     } } />
                 <label className="label" for='imgupload'><img className="imagespecific"src={props.src}/></label>
             </div>
@@ -107,4 +108,3 @@ export const Profileimage = props => {
     )
 
     }
-

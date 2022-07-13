@@ -2,32 +2,33 @@ import React, { useEffect, useState } from 'react'
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import "./Chat.css";
-
+import Navbar from '../../components/Navbar';
 var stompClient =null;
 export const Chat = () => {
+   
     const [privateChats, setPrivateChats] = useState(new Map());     
     const [publicChats, setPublicChats] = useState([]); 
     const [tab,setTab] =useState("CHATROOM");
     const [userData, setUserData] = useState({
-        username: '', //Mail del sender lo traemos desde el perfil en el que estemos
-        receivername: '', //Nos lo dan con el boton de connect. Hacemos un request para traer el mail del receiver
-        connected: false,
+        username: sessionStorage.getItem('fullName'),
+        receivername: sessionStorage.getItem('fullNameChef'),
+        connected: true,
         message: ''
       });
-    useEffect(() => {
-      console.log(userData);
-    }, [userData]);
+   
 
     const connect =()=>{
+        console.log(localStorage.getItem('fullNameChef'));
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
         stompClient.connect({},onConnected, onError);
+        setUserData.receiverName = sessionStorage.getItem('fullNameChef');
     }
 
-    const onConnected = () => { //Aca le tenemos que pasar el usernmae del usuario que esta logueado.
+    const onConnected = () => {
         setUserData({...userData,"connected": true});
         stompClient.subscribe('/chatroom/public', onMessageReceived);
-        stompClient.subscribe('/user/'+sessionStorage.getItem("clientmail")+'/private', onPrivateMessage); //cambiar session sino por userData.username
+        stompClient.subscribe('/user/'+ sessionStorage.getItem("fullNameChef")+'/private', onPrivateMessage);
         userJoin();
     }
 
@@ -54,6 +55,9 @@ export const Chat = () => {
                 break;
         }
     }
+    useEffect(() => {
+        connect();
+    }, []);
     
     const onPrivateMessage = (payload)=>{
         console.log(payload);
@@ -85,7 +89,7 @@ export const Chat = () => {
                 message: userData.message,
                 status:"MESSAGE"
               };
-              console.log(chatMessage);
+            
               stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
               setUserData({...userData,"message": ""});
             }
@@ -108,22 +112,15 @@ export const Chat = () => {
           setUserData({...userData,"message": ""});
         }
     }
-
-    const handleUsername=(event)=>{ //pasarle el mail del receiver
-        const {value}=event.target;
-        setUserData({...userData,"username": value});
-    }
-
-    const registerUser=()=>{
-        connect();
-    }
+  
     return (
-    <div className="container">
-        {userData.connected?
+        <> 
+        <Navbar/>
+        <div className="container">
+     
         <div className="chat-box">
             <div className="member-list">
                 <ul>
-                    <li onClick={()=>{setTab("CHATROOM")}} className={`member ${tab==="CHATROOM" && "active"}`}>Chatroom</li>
                     {[...privateChats.keys()].map((name,index)=>(
                         <li onClick={()=>{setTab(name)}} className={`member ${tab===name && "active"}`} key={index}>{name}</li>
                     ))}
@@ -162,21 +159,9 @@ export const Chat = () => {
                 </div>
             </div>}
         </div>
-        :
-        <div className="register">
-            <input
-                id="user-name"
-                placeholder="Enter your name"
-                name="userName"
-                value={userData.username}
-                onChange={handleUsername}
-                margin="normal"
-              />
-              <button type="button" onClick={registerUser}>
-                    connect
-              </button> 
-        </div>}
+       
     </div>
+    </>
     )
 }
 

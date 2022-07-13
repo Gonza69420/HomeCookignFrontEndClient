@@ -12,10 +12,20 @@ import { ReviewCard } from '../../components/reviewCard';
 import { useHistory, useParams } from 'react-router-dom'
 export const ProfileChef = () => {
     const [menuPopUp , setmenuPopUp] = useState(false);
-    const [dataMenu, setDataMenu] = useState([[{}]]);
+    const [dataMenu, setDataMenu] = useState([{}]);
     const {id} = useParams();
     const [isDataMenuEmpty, setisDataMenuEmpty] = useState(false);
     const [chefData, setchefData] = useState({});
+    const[ menu, setMenu] = useState({
+        name: "",
+        shortDescription: "",
+        description: "",
+        category: "",
+        imageurl: ""
+    });
+    const [restaurantData, setRestaurantData] = useState([{}]);
+    const [isRestaurantDataEmpty, setRestaurantDataEmpty] = useState(false);
+
 
     useEffect(() => {
         console.log(id);
@@ -56,7 +66,7 @@ export const ProfileChef = () => {
             dataMenu[0]= (JSON.parse(result));
             
             console.log(dataMenu)
-            if(dataMenu[0].name !== undefined){
+            if(dataMenu[0][0].name !== undefined){
                 setisDataMenuEmpty(true);
             }
         }
@@ -65,6 +75,29 @@ export const ProfileChef = () => {
     }, []);
 
   
+    useEffect (() => {
+        var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/dbInfo/getRestaurant/" + chefData.mail, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+            console.log(JSON.parse(result));
+            
+            restaurantData[0]= (JSON.parse(result));
+            
+            console.log(restaurantData)
+            if(restaurantData[0][0].name !== undefined){
+                setRestaurantDataEmpty(true);
+                console.log(isRestaurantDataEmpty)
+            }
+        }
+        )
+        .catch(error => console.log('error', error));
+    }, [chefData.mail]);
+
 
   
     return (
@@ -76,51 +109,48 @@ export const ProfileChef = () => {
                     <h1>{chefData.firstName} {chefData.lastName}  </h1> 
                     <button type="button" class="btn btn-success btn-lg" onClick={()=> {
                         sessionStorage.setItem("chefmail", chefData.mail);
+                        sessionStorage.setItem('fullNameChef', chefData.firstName + " " + chefData.lastName);
+
                         window.location.href = '/chat';
+
                     }}>Contratar</button>
                 </Stack>
 
 
                 <h2 className='d-flex justify-content-start mt-4 '>Bio</h2>
-                <p>{chefData.bio}</p>
+                <Stack direction="horizontal" className='justify-content-start mt-4' gap={3}>
+                <p className='totheright'>{chefData.bio}</p>
+                </Stack>
                 <br/>
                 <h2 className='d-flex justify-content-start mt-4 mb-4'> Restaurantes</h2>
+                <div className='containercards'>
                 <Stack direction="horizontal" className='justify-content-start mt-4' gap={3}>
-                            <RestaurantCard url="https://media-cdn.tripadvisor.com/media/photo-s/05/ae/df/ab/1000-rosa-negra.jpg" name="1000 Rosa Negra"  />
+                    {isRestaurantDataEmpty &&
+                    <>
+                        {restaurantData[0]?.map((restaurant, index) => {
+                            return(
+                                <>
+                                <RestaurantCard url={restaurant.imageURL} name={restaurant.name}  />    
+                                </>
+                            )
 
-                        
+                        }
+                        )}
+                    </>
+                    }      
                 </Stack>
+                </div>
+
                 <h2 className='d-flex justify-content-start mt-4 mb-4'> Menus</h2>
                 <div className='containercards'>
                 <Stack direction="horizontal" className='mt-4' gap={3}>
-                    {!isDataMenuEmpty &&
+                    {isDataMenuEmpty &&
                     <>
                     {dataMenu[0]?.map(menu => {
 
                         return(
                             <>
-                        <MenuCard url={menu.imageurl} name={menu.name} description={menu.shortDescription} onClick={() => setmenuPopUp(true)} />
-
-                        {menuPopUp &&
-                            <>
-                                <Popup setTrigger={setmenuPopUp} trigger={menuPopUp} type="popup-inner">
-                                <Stack direction="horizontal" className='justify-content-start mt-4' gap={3}>
-                                <h1 className="topright">{menu.name}</h1>
-                                <img className ="MenuImage" src={menu.imageurl}/>
-                                </Stack>
-                                <h3 className='d-flex justify-content-start mt-4 mb-4'>Descripcion:</h3>
-                                <p className='totheright'>{menu.description}</p>
-                                <br/>
-
-
-
-
-                                <h3 className='d-flex justify-content-start mt-4 mb-4'>Reviews:</h3>
-                                <ReviewCard firstname="Raul" lastname="Salvio" review="Interesante el concepto. Mercado Libre es una herramienta" src="https://pbs.twimg.com/media/BcFrAwtIYAAsqsE.jpg" stars={3}/>
-
-                                </Popup>
-                            </>
-                            }
+                                <MenuCard url={menu.imageurl} name={menu.name} description={menu.shortDescription} menuid={menu.id} eliminar={false} />
                             </>
                         )
                     })

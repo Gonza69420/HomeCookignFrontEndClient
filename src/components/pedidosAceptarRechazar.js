@@ -1,12 +1,51 @@
-import React from "react";
+import React, {useState} from "react";
 import "./pedidosAceptarRechazar.css"
 import { BsCheckCircleFill, BsFillXCircleFill } from "react-icons/bs";
 
 export const PedidosAceptarRechazar = props => {
-
+    const[idSolcitud, setIdSolicitud] = useState(props.idSolcitud);
     const calculateMonto = (montos) => {
         var monto = montos;
         return parseInt(monto*1.05);
+    }
+
+    const onSubmit = (e) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/solicitude/acceptSolicitude/" + idSolcitud, requestOptions)
+        .then(response => response.text())
+        .then(result => {console.log(result)
+            window.location.reload(false);
+        })
+        .catch(error => console.log('error', error));
+    }
+
+    const cancel = (e) => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        redirect: 'follow'
+        };
+
+        fetch("http://localhost:8080/solicitude/deleteSolicitude/" + idSolcitud, requestOptions)
+        .then(response => response.text())
+        .then(result => {console.log(result)
+            window.location.reload(false);
+        })
+        .catch(error => console.log('error', error));
     }
 
 return(
@@ -27,8 +66,8 @@ return(
         <div className="containerMonto">
             <h3 className="monto">Monto: ${calculateMonto(props.monto)}</h3>
             <div className="containerBotones">
-                <button type="button" class="btn btn-success btn-lg"><BsCheckCircleFill/></button>
-                <button type="button" class="btn btn-danger btn-lg"><BsFillXCircleFill/></button>
+                <button type="button" class="btn btn-success btn-lg" onClick={onSubmit}><BsCheckCircleFill/></button>
+                <button type="button" class="btn btn-danger btn-lg" onClick={cancel}><BsFillXCircleFill/></button>
             </div>
         </div>
     </div>
