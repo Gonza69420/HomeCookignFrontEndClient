@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react'
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
 import "./Chat.css";
+
 var stompClient =null;
 export const Chat = () => {
     const [privateChats, setPrivateChats] = useState(new Map());     
     const [publicChats, setPublicChats] = useState([]); 
     const [tab,setTab] =useState("CHATROOM");
     const [userData, setUserData] = useState({
-        username: '',
-        receivername: '',
+        username: '', //Mail del sender lo traemos desde el perfil en el que estemos
+        receivername: '', //Nos lo dan con el boton de connect. Hacemos un request para traer el mail del receiver
         connected: false,
         message: ''
       });
@@ -23,10 +24,10 @@ export const Chat = () => {
         stompClient.connect({},onConnected, onError);
     }
 
-    const onConnected = () => {
+    const onConnected = () => { //Aca le tenemos que pasar el usernmae del usuario que esta logueado.
         setUserData({...userData,"connected": true});
         stompClient.subscribe('/chatroom/public', onMessageReceived);
-        stompClient.subscribe('/user/'+userData.username+'/private', onPrivateMessage);
+        stompClient.subscribe('/user/'+sessionStorage.getItem("clientmail")+'/private', onPrivateMessage); //cambiar session sino por userData.username
         userJoin();
     }
 
@@ -108,7 +109,7 @@ export const Chat = () => {
         }
     }
 
-    const handleUsername=(event)=>{
+    const handleUsername=(event)=>{ //pasarle el mail del receiver
         const {value}=event.target;
         setUserData({...userData,"username": value});
     }
@@ -179,3 +180,4 @@ export const Chat = () => {
     )
 }
 
+export default Chat
