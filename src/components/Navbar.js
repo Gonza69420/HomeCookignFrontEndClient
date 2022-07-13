@@ -8,7 +8,7 @@ const Navbar = ()=> {
   
 
   const logOutClick = () => {
-    sessionStorage.removeItem('token');
+    sessionStorage.clear();
     window.location.href = '/';
   }
 
