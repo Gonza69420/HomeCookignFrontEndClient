@@ -57,13 +57,7 @@ export  const MainPage = () => {
       }
 
       if(dropdown === "Chef"){
-          if(searchInput === ''){
-            setfilteredData(chefData);
-          }
-          else{
-            setfilteredData(chefData.filter(chef => chef.firstName.toLowerCase().includes(searchInput.toLowerCase())));
           
-        }
       }
     }
 
@@ -113,7 +107,7 @@ export  const MainPage = () => {
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
               
-            {filteredData.map(chef => {
+            {chefData[0].map(chef => {
               return(
               <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
               )
