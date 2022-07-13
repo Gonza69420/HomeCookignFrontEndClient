@@ -65,7 +65,7 @@ export const Register = () => {
         <div className="contenedor mt-5">
             <h1 className="m-auto">Register</h1>
             <br/>
-            <Container id= "main-container" className="d-grid h-100">
+            <Container id= "main-container" className="d-grid h-100" style={{padding: "35px"}}>
             <Form id="sign in-form" action="" onSubmit={onSubmit} className = "text-center w-100">
              <Form.Group className="mb-3 mt-3 w-25 m-auto" controlId="exampleForm.ControlInput0">
                 <Form.Label>Email address</Form.Label>

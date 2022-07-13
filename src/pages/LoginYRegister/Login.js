@@ -64,8 +64,8 @@ export const Login = () => {
 
     return(
        <div className="container mt-5" align="center">
-            <h1>Login Cliente!</h1>
-            <Container id= "main-container" className="d-grid h-100 m-auto">
+            <h1>HomeCooking | Login</h1>
+            <Container id= "main-container" className="d-grid h-100 m-auto" style={{padding: "35px"}}>
             <Form id="sign in-form" action="" onSubmit={onSubmit} className = "text-center w-100">
              <Form.Group className="mb-3 mt-3 w-25 m-auto " controlId="exampleForm.ControlInput0">
                 <Form.Label>Username</Form.Label>
