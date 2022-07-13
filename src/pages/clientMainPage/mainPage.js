@@ -15,7 +15,7 @@ export  const MainPage = () => {
     const [clientData , setclientData] = useState([]);
     const [chefData , setchefData] = useState([]);
     const [filteredData ,setfilteredData] = useState([]);
-
+    const [isChefDataEmpty , setisChefDataEmpty] = useState(false);
 
    
     useEffect(() => {
@@ -80,6 +80,10 @@ export  const MainPage = () => {
           console.log(JSON.parse(result));
           chefData[0] = JSON.parse(result);
           console.log(chefData);
+
+          if(chefData[0][0].id !== undefined){
+            setisChefDataEmpty(true);
+          }
         })
         .catch(error => console.log('error', error));
     }, [])
@@ -106,12 +110,15 @@ export  const MainPage = () => {
               
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
-              
-            {chefData[0].map(chef => {
-              return(
-              <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
-              )
-            })}
+            {isChefDataEmpty &&
+            <>
+              {chefData[0].map(chef => {
+                return(
+                <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
+                )
+              })}
+            </>
+          }
             </Stack>
           </div>
         </div>
