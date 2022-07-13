@@ -31,10 +31,11 @@ export const ClientProfile = () => {
 
     const handleChange = (e) => {
         console.log(e.target.defaultValue);
+       
         setData({
             ...data,
             [e.target.name]: e.target.defaultValue
-        })
+        });
     }
     
 
@@ -66,7 +67,7 @@ export const ClientProfile = () => {
 
       fetch("http://localhost:8080/api/auth/editClientBio/" + sessionStorage.getItem("mail"), requestOptions)
         .then(response => response.text())
-        .then(result => console.log(result))
+        .then(result => window.location.reload())
         .catch(error => console.log('error', error));
     }
 
@@ -117,7 +118,7 @@ export const ClientProfile = () => {
                 }
                 {personalizar &&
                     <form>
-                      <textarea className='inputBio' type="text" name="bio" onChange={handleChange}>
+                      <textarea className='inputBio' type="text" name="bio" onChange={handleChange} >
                         {data.bio}
                       </textarea>
                       <div className="d-grid gap-2">

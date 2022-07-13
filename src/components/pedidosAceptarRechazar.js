@@ -23,7 +23,7 @@ export const PedidosAceptarRechazar = props => {
 
         fetch("http://localhost:8080/solicitude/acceptSolicitude/" + idSolcitud, requestOptions)
         .then(response => response.text())
-        .then(result => {console.log(result)
+        .then(result => {
             window.location.reload(false);
         })
         .catch(error => console.log('error', error));
@@ -42,7 +42,7 @@ export const PedidosAceptarRechazar = props => {
 
         fetch("http://localhost:8080/solicitude/deleteSolicitude/" + idSolcitud, requestOptions)
         .then(response => response.text())
-        .then(result => {console.log(result)
+        .then(result => {
             window.location.reload(false);
         })
         .catch(error => console.log('error', error));

@@ -18,17 +18,17 @@ export const Chat = () => {
    
 
     const connect =()=>{
-        console.log(localStorage.getItem('fullNameChef'));
+        console.log(sessionStorage.getItem('fullNameChef'));
         let Sock = new SockJS('http://localhost:8080/ws');
         stompClient = over(Sock);
         stompClient.connect({},onConnected, onError);
-        setUserData.receiverName = sessionStorage.getItem('fullNameChef');
+        //setUserData.receiverName = sessionStorage.getItem('fullNameChef');
     }
 
     const onConnected = () => {
         setUserData({...userData,"connected": true});
         stompClient.subscribe('/chatroom/public', onMessageReceived);
-        stompClient.subscribe('/user/'+ sessionStorage.getItem("fullNameChef")+'/private', onPrivateMessage);
+        stompClient.subscribe('/user/'+ userData.username+'/private', onPrivateMessage);
         userJoin();
     }
 
@@ -99,7 +99,7 @@ export const Chat = () => {
         if (stompClient) {
           var chatMessage = {
             senderName: userData.username,
-            receiverName:tab,
+            receiverName:sessionStorage.getItem('fullNameChef'),
             message: userData.message,
             status:"MESSAGE"
           };

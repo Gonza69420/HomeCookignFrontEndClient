@@ -49,7 +49,7 @@ export const Profileimage = props => {
         .then(response => response.text())
         .then(result => {
             setImageUpload(null);
-            console.log(result)
+           
             window.location.reload();
 
         }
