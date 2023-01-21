@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Form, Button, Container } from "react-bootstrap";
-
+import "./Login.css";
 
 export const Login = () => {
     const [data, setData] = useState({
@@ -63,29 +63,29 @@ export const Login = () => {
     }
 
     return(
-       <div className="container mt-5" align="center">
-            <h1>HomeCooking | Login</h1>
-            <Container id= "main-container" className="d-grid h-100 m-auto" style={{padding: "35px"}}>
-            <Form id="sign in-form" action="" onSubmit={onSubmit} className = "text-center w-100">
-             <Form.Group className="mb-3 mt-3 w-25 m-auto " controlId="exampleForm.ControlInput0">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} name="username"/>
-            </Form.Group>
-            <Form.Group className="mb-3 w-25 position-relative m-auto" controlId="exampleForm.ControlInput1" >
-                <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" onChange={handleChange} name="password"/>
-            </Form.Group>
+       <div className={"containerLogin"}>
+           <div className={"containerLoginForm"}>
+                <h1>HomeCooking | Login</h1>
+                <Form id="sign in-form" action="" onSubmit={onSubmit} className = "text-center w-100">
+                     <Form.Group className={"userNameLogin"} controlId="exampleForm.ControlInput0">
+                        <Form.Label>Username</Form.Label>
+                        <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} name="username"/>
+                     </Form.Group>
+                    <Form.Group className="userNameLogin" controlId="exampleForm.ControlInput1" >
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control type="password" placeholder="Password" onChange={handleChange} name="password"/>
+                    </Form.Group>
 
-            <Button variant="primary" type="submit" className="primary m-auto mb-3 w-25">
-                Submit
-            </Button>
-            
-            </Form>
-            <Button variant="secondary" onClick={handleRegister} className="primary m-auto mb-3 w-25 text-center " >
-                Register
-            </Button>
-        </Container>
-       </div> 
+                    <Button variant="primary" type="submit" className="primary m-auto mb-3 w-25">
+                        Log In
+                    </Button>
+
+                    <Button variant="secondary" onClick={handleRegister} className="primary m-auto mb-3 w-25 text-center " >
+                        Register
+                    </Button>
+                </Form>
+           </div>
+       </div>
     )
    
 }
