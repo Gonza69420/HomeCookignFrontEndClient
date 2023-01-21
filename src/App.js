@@ -8,6 +8,7 @@ import { ClientProfile } from './pages/clientChefProfile/clientProfile';
 import { ProfileChef } from './pages/chefProfile/ProfileChef';
 import {PedidosCliente} from "./pages/pedidos/PedidosCliente"
 import { Chat } from './pages/chat/Chat';
+import {Test} from "./pages/Test.tsx";
 
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path='/chefProfile/:id' element={<ProfileChef/>}/>
           <Route path='/pedidosCliente' element={<PedidosCliente/>}/>
           <Route path='/chat' element={<Chat/>}/>
+          <Route path='/test' element={<Test/>}></Route>
         </Routes>
       </Router>
     </div>

@@ -9,7 +9,6 @@ export const Profileimage = props => {
     const [image , setImage] = useState("");
 
     const uploadImage = () => {
-        console.log(sessionStorage.getItem("mail"));
         if(imageUpload === null) return;
         console.log("image is not null");
         const imageRef = ref(storage , "images/chef/" + sessionStorage.getItem("mail"));
@@ -29,7 +28,6 @@ export const Profileimage = props => {
         uploadImage();
         if(imageRef === "") return;
         getURL(imageRef)
-        console.log(image)
         if(image === "") return;
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -91,8 +89,8 @@ export const Profileimage = props => {
     return(
         <div className={props.classname}>
             {personalizar ?
-            <div className="image">
-            <img className="imagespecific"src={props.src}/>
+            <div className="imageProfile">
+                <img className="imagespecific"src={props.src}/>
             </div>
             :
             <div className="personalizeimage">

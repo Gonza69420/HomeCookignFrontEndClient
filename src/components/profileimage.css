@@ -5,20 +5,28 @@
     margin: 20px;
     shape-outside: circle();
     clip-path: circle();
+    overflow: hidden;
+
+
 }
 
-.imageprofile .image{
+.imageProfile{
     position: relative;
     display: flex;
     align-content: center;
     flex-wrap: wrap;
     flex-direction: column;
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    overflow:auto;
 }
 
 
-.imageprofile .image .imagespecific{
-    width: 100%;
-    height: auto; 
+.imagespecific{
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
 }
 
 .imageprofile .personalizeimage{
