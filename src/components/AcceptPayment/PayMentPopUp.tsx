@@ -1,16 +1,19 @@
-import {useState} from "react";
+import {Fragment, useState} from "react";
 import {Box, Button, FormControl, InputLabel, MenuItem, Modal, Select} from "@mui/material";
 import "./PayMentPopUp.css"
 import {Profileimage} from '../../components/profileimage';
+import {MenuChef} from "../../objects/Menu";
 
 interface Props{
 ammount : number;
 cardList : string[];
 chefName: string;
 fecha: string;
-selectCard : (string) => void;
-chefMenus : string;
-imageURL : string;
+chefMenu : MenuChef;
+setClose : (open : boolean) => void;
+ammountPeople : number;
+
+open : boolean;
 }
 
 const style = {
@@ -26,36 +29,31 @@ const style = {
 };
 
 export const PayMentPopUp = (props : Props) => {
-    const [open , setOpen] = useState(false);
+    const [open , setOpen] = useState(props.open);
     const [ammount , setAmmount] = useState(props.ammount);
     const [cards , setCards] = useState(props.cardList);
     const [selectedCard , setSelectedCard] = useState("")
 
     const handleClose = () => {
         setOpen(false);
+        props.setClose(false);
     }
 
     const handleSelectCard = (event : any) => {
         setSelectedCard(event.target.value);
-        props.selectCard(event.target.value);
     }
 
     const getLast4Digits = (card : string) => {
         return "****" + card.substr(card.length - 4);
     }
 
-    const handleOpen = () => setOpen(true);
-
     return(
-        <>
-            <Button onClick={handleOpen}>Open modal</Button>
+        <div>
             <Modal open={open} >
                 <Box className={"BoxPayment"}>
                     <div className={"tituloPayment"}>
                         <h2 className={"PagoParaPayment"}>Pago para: </h2>
                         <h2 className={"ChefNamePayment"}>{props.chefName}</h2>
-
-                        <Profileimage classname={"imageChefPayment"} src={props.imageURL} personalizar={false}/>
                     </div>
 
                     <div className={"fecharowPayment"}>
@@ -65,10 +63,17 @@ export const PayMentPopUp = (props : Props) => {
 
                     <div className={"fecharowPayment"}>
                         <h4 className={"MenutittlePayment"}>Menu: </h4>
-                        <h4 className={"MenuPayment"}>{props.chefMenus}</h4>
+                        <h4 className={"MenuPayment"}>{props.chefMenu?.name}</h4>
                     </div>
 
-                    <div className={"cardRowDivPayment"}>
+                    <div className={"fecharowPayment"}>
+                        <h4 className={"MenutittlePayment"}>Personas: </h4>
+                        <h4 className={"MenuPayment"}>{props.ammountPeople}</h4>
+
+                    </div>
+
+                    <div className={"fecharowPayment"}>
+                        <h4 className={"cardPaymentTittle"}> Tarjeta: </h4>
                         <FormControl className={"FormControlSelectPayment"}>
                             <InputLabel className={"SeleccionaTuTarjetaPayment"}>Selecciona tu Tarjeta</InputLabel>
                             <Select
@@ -84,18 +89,21 @@ export const PayMentPopUp = (props : Props) => {
                             </Select>
                         </FormControl>
                     </div>
-                    <h4 className={"totalAPagarPayment"}>A pagar: {ammount}$</h4>
 
-                    <div className={"ButtonsPayment"}>
-                        <Button variant="contained" color="success" className={"successPayment"}>
-                            Pagar
-                        </Button>
-                        <Button variant="contained" color="error" className={"errorPayment"} onClick={handleClose}>
-                            Cancelar
-                        </Button>
+                    <div className={"cardRowDivPayment"}>
+                        <h4 className={"totalAPagarPayment"}>Total a pagar: {ammount}$</h4>
+
+                        <div className={"ButtonsPayment"}>
+                            <Button variant="contained" color="success" className={"successPayment"}>
+                                Pagar
+                            </Button>
+                            <Button variant="contained" color="error" className={"errorPayment"} onClick={handleClose}>
+                                Cancelar
+                            </Button>
+                        </div>
                     </div>
                 </Box>
             </Modal>
-        </>
+        </div>
     )
 }

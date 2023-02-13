@@ -30,10 +30,6 @@ export const MenuCard = props => {
                 <h3 className='d-flex justify-content-start mt-4 mb-4'>Descripcion:</h3>
                 <p className='totheright'>{props.description}</p>
                 <br/>
-
-
-
-
             </Popup>
         
         }

@@ -9,7 +9,8 @@ import { ProfileChef } from './pages/chefProfile/ProfileChef';
 import {PedidosCliente} from "./pages/pedidos/PedidosCliente"
 import { Chat } from './pages/chat/Chat';
 import {Test} from "./pages/Test.tsx";
-
+import {Test2} from "./pages/Test2.tsx";
+import {Toaster} from "react-hot-toast";
 
 
 function App() {
@@ -25,9 +26,32 @@ function App() {
           <Route path='/chefProfile/:id' element={<ProfileChef/>}/>
           <Route path='/pedidosCliente' element={<PedidosCliente/>}/>
           <Route path='/chat' element={<Chat/>}/>
-          <Route path='/test' element={<Test/>}></Route>
+          <Route path='/test' element={<Test/>}/>
+          <Route path={'/test2'} element={<Test2/>}/>
         </Routes>
       </Router>
+      <Toaster
+          reverseOrder={false}
+          toastOptions={{
+            duration: 5000,
+            position: 'bottom-center',
+            style: {
+              width: '20vw',
+              height: '5vh',
+              fontSize: '20px'
+            },
+            success: {
+              style: {
+                background: '#B4EBCA'
+              }
+            },
+            error: {
+              style: {
+                background: '#FFB7C3'
+              }
+            }
+          }}
+      />
     </div>
   );
 }

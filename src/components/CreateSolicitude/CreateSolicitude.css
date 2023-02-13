@@ -1,0 +1,112 @@
+.BoxCreateSolicitude{
+    background-color: #f8eadd;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    border: 2px solid #a6a6a6;
+    border-radius: 10px;
+    min-width: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 10px 10px 10px 1px rgba(66, 66, 66, 0.75);
+    padding: 20px;
+}
+
+.tituloCreateSolicitude{
+    display: flex;
+    flex-direction: row;
+    vertical-align: middle;
+    padding: 10px;
+    max-height: 18%;
+    border-bottom: 1px solid #a6a6a6;
+}
+
+.ChefNameCreateSolcitude{
+    vertical-align: middle;
+    margin-top: 1%;
+    font-weight: 450;
+    max-width: 85%;
+
+    max-height: 18%;
+
+}
+
+.BoxCreateSolicitude .tituloCreateSolicitude .imageChefPayment{
+    max-width: 20%;
+    max-height: 20%;
+    shape-outside: circle();
+    clip-path: circle();
+    margin-left: auto;
+}
+
+.divfechaCreateSolicitude{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.fechaCreateSolicitude{
+    margin-right: 10px;
+    font-weight: 450;
+    font-family: Satoshi, sans-serif;
+    margin-top: 1%;
+}
+
+.datePickerClientSolicitude{
+    min-width: 30% !important;
+}
+
+.divhourCreateSoliciute{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.hourCreateSolicitude{
+    margin-right: 10px;
+    font-weight: 450;
+}
+
+.selectHourCreateSolicitude{
+    width: 30%;
+
+}
+
+.divMenuCreateSolicitude{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+
+.buttonCreateSolicitude{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    float: right;
+    margin-left: auto;
+}
+
+.siguienteCreateSolicitude{
+    margin-right: 10px !important;
+    width: 200px!important;
+    height: 50px !important;
+    background-color: #f38c0a !important;
+    font-family: Calibri, cursive !important;
+    font-size: larger !important;
+}
+
+.cancelarCreateSolicitude{
+    width: 200px !important;
+    background-color: #f83100 !important;
+    height: 50px !important;
+    font-size: larger !important;
+    font-family: Calibri, cursive !important;
+}
+
+.precioCreateSolicitude{
+    margin-top: 1%;
+}

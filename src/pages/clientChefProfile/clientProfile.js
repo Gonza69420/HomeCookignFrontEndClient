@@ -91,7 +91,7 @@ export const ClientProfile = () => {
     return(
         <div className='backgroundblack'>
             <Navbar/>
-            <div className="container mt-5 bg-white">
+            <div className="containerprofileClient">
                 <Stack direction="horizontal" className='justify-content-start' gap={3}>
                 {personalizar && 
                     <Profileimage classname="imageprofile" src={data.imageURL} personalizar={true}/> 
@@ -106,7 +106,7 @@ export const ClientProfile = () => {
                 </Stack>
                 
                 {isbio &&
-                <h2 className='d-flex justify-content-start mt-4 '>Bio</h2>
+                <h2 className='bioClientProfile'>Bio</h2>
                 }
 
                 {!personalizar &&
