@@ -8,6 +8,8 @@ import { Stack, Dropdown } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import "./mainPage.css"
+import {useSearchChef} from "../../queries/Filter.tsx";
+import toast from "react-hot-toast";
 
 export  const MainPage = () => {
     const[dropdown , setDropdown] = useState("Chef");
@@ -16,17 +18,26 @@ export  const MainPage = () => {
     const [chefData , setchefData] = useState([]);
     const [filteredData ,setfilteredData] = useState([]);
     const [isChefDataEmpty , setisChefDataEmpty] = useState(false);
+    const [chefName , setchefName] = useState('');
+    const [menuName , setmenuName] = useState('');
 
-   const[isFilteredDataEmpty , setisFilteredDataEmpty] = useState(false);
+    const {first, last , lastPage} = useSearchChef({
+        chefName : chefName,
+        menuName : menuName,
+        onCompleted: (data) => {
+            setfilteredData(data)
+        },
+        onError: (e) => toast.error(e.message),
+    })
+
+
     useEffect(() => {
-        console.log(sessionStorage.getItem('token'));
         if(sessionStorage.getItem('token') === null){
             window.location.href = '/';
         }
     }, [])
 
     useEffect(() => {
-      console.log("3")
       fetch(`http://localhost:8080/api/auth/getClient/${sessionStorage.getItem('mail')}`, {
         method: 'GET',
         headers: {
@@ -35,51 +46,25 @@ export  const MainPage = () => {
         }
     }).then(response => response.json())
     .then(data => {
-      console.log(data);
       setclientData(data);
       sessionStorage.setItem('fullName', data.fullName);
 
     }).catch(error => {
-      console.log(error);
     })
 
-    console.log("4")
     }, []);
     
-    
-
-    const searchItems = (event) => {
-      setSearchInput(event.target.value);
-
-      console.log(dropdown)
-      if(dropdown === "Menu"){
-
-      }
-
-      if(dropdown === "Chef"){
-        if(event.target.value === ''){
-          setfilteredData(chefData);
-         setisFilteredDataEmpty(true);
+    const searchItems = (e) => {
+        if(dropdown === "Chef"){
+            setSearchInput(e.target.value);
+            setchefName(searchInput);
+            setmenuName('');
         }else{
-          setfilteredData([])
-          let word
-          chefData[0]?.filter(item => {
-             word = item.firstName
-             console.log(word)
-            if(word.includes(event.target.value) ){
-              setfilteredData(item)
-              console.log(item)
-              console.log(filteredData)
-              setisFilteredDataEmpty(true);
-            }else{
-              
-
-            }
-          }
-        )
-      }
+            setSearchInput(e.target.value);
+            setmenuName(searchInput);
+            setchefName('');
+        }
     }
-  }
 
     const handleSelect = (e) => {
       console.log(e);
@@ -133,10 +118,10 @@ export  const MainPage = () => {
             {filteredData.length > 0 &&
 
             <>
-              {filteredData[0].map(chef => {
+              {filteredData.map(chef => {
                 return(
                   <>   
-                <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} stars="5" Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
+                <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
                 </>
                 )
               })}

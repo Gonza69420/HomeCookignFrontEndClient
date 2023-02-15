@@ -1,27 +1,21 @@
 .containerLogin{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
+    position: absolute;
+    min-height: 100%;
+    width: 100%;
     background-color: #f5f5f5;
 }
 
 .containerLoginForm{
     display: flex;
     flex-direction: column;
-    position: absolute;
-    align-content: center;
-    justify-content: center;
-    top: 10%;
-    height: 50%;
-    width: 30%;
-    background-color: #f1bc59;
-    border-radius: 50px;
+    align-items: center;
+    min-height: 100%;
+    width: 100%;
+    background-color: #f5f5f5;
 }
 
 .userNameLogin{
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
     padding: 20px;
     border-radius: 500px !important;
@@ -53,4 +47,32 @@
 .registerTittle{
     margin-top: 20px;
 
+}
+
+.formLogin{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.LogInButtonChef{
+    width: 92%;
+    background: #a9a9a9 !important;
+    margin-top: 3% !important;
+}
+
+.containerLoginCenter{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    margin-top: 10%;
+    height: 50%;
+    width: 35%;
+    padding: 3%;
+    background-color: #f1bc59;
+    border-radius: 50px;
 }

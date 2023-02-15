@@ -1,0 +1,41 @@
+.ManageCardBox{
+    background-color: #f8eadd;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    border: 2px solid #a6a6a6;
+    border-radius: 10px;
+    min-width: 20%;
+    transform: translate(-50%, -50%);
+    box-shadow: 10px 10px 10px 1px rgba(66, 66, 66, 0.75);
+    padding: 20px;
+    max-height: 34%;
+    min-height: 25%;
+}
+
+.ManageCardTittleDiv{
+    margin-bottom: 10%;
+    border-bottom: 1px solid #a6a6a6;
+}
+
+.manageSelectCardDiv{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10%;
+}
+
+.manageSelectCard{
+    min-width: 50% !important;
+}
+
+.eliminateButton{
+    margin-left: 3% !important;
+    background-color: red !important;
+}
+
+.addButtonButtonManage{
+    width: 100%;
+    background-color: #329827 !important;
+    border-radius: 10px !important;
+}

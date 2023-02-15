@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { Form, Button, Container } from "react-bootstrap";
 import "./Login.css";
+import toast from "react-hot-toast";
+import {useNavigate} from "react-router-dom";
 
 export const Login = () => {
     const [data, setData] = useState({
@@ -14,6 +16,8 @@ export const Login = () => {
             window.location.href = '/mainPage';
         }
     }, [])
+
+    const navigate = useNavigate();
 
     const onSubmit = (e) => {
         console.log(data);
@@ -30,20 +34,17 @@ export const Login = () => {
             })
                 })
             .then(res =>{
-                if (res.status === 401 || res.status === 400 || data.username === '' || data.password === '') { 
-                    throw new Error("Invalid credentials");
+                if (res.status === 401 || res.status === 400 || data.username === '' || data.password === '') {
+                    toast.error( 'Invalid Credentials');
                 } 
                 else {
+                    toast.success( 'Login Successful');
                     sessionStorage.setItem("mail" , data.username);
-                    return res.json(); 
+                    sessionStorage.setItem('token', res.accessToken);
+                    navigate('/mainPage');
 
                 }
-                })
-            .then(data => {
-                sessionStorage.setItem('token', data.accessToken);
-                window.location.href = '/mainPage';
-                
-            }
+                }
             )).catch(err => console.log(err));
             
        
@@ -65,25 +66,27 @@ export const Login = () => {
     return(
        <div className={"containerLogin"}>
            <div className={"containerLoginForm"}>
-                <h1>HomeCooking | Login</h1>
-                <Form id="sign in-form" action="" onSubmit={onSubmit} className = "text-center w-100">
-                     <Form.Group className={"userNameLogin"} controlId="exampleForm.ControlInput0">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} name="username"/>
-                     </Form.Group>
-                    <Form.Group className="userNameLogin" controlId="exampleForm.ControlInput1" >
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" placeholder="Password" onChange={handleChange} name="password"/>
-                    </Form.Group>
+               <div className={"containerLoginCenter"}>
+                    <h1>HomeCooking | Login</h1>
+                   <div className={"formLogin"}>
+                        <Form.Group className={"userNameLogin"} controlId="exampleForm.ControlInput0">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} name="username"/>
+                         </Form.Group>
+                        <Form.Group className="userNameLogin" controlId="exampleForm.ControlInput1" >
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" placeholder="Password" onChange={handleChange} name="password"/>
+                        </Form.Group>
 
-                    <Button variant="primary" type="submit" className="primary m-auto mb-3 w-25">
-                        Log In
-                    </Button>
+                        <Button variant={"contained"} className={"LogInButtonChef"} onClick={(e) => onSubmit(e)}>
+                            Log In
+                        </Button>
 
-                    <Button variant="secondary" onClick={handleRegister} className="primary m-auto mb-3 w-25 text-center " >
-                        Register
-                    </Button>
-                </Form>
+                        <Button variant={"contained"} className={"LogInButtonChef"} onClick={handleRegister}>
+                            Register
+                        </Button>
+                   </div>
+            </div>
            </div>
        </div>
     )

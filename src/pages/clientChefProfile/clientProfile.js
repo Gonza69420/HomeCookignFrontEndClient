@@ -8,6 +8,8 @@ import "./clientProfile.css"
 import { TbPencil, TbCheck } from "react-icons/tb";
 import { storage } from '../../firebase';
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import {RiSettings4Fill} from "react-icons/ri";
+import {ManageCreditCard} from "../../components/AddCard/ManageCreditCard.tsx";
 export const ClientProfile = () => {
     const [personalizar , setPersonalizar] = useState(false);
     const [imageurl, setImageUrl] = useState();
@@ -18,6 +20,8 @@ export const ClientProfile = () => {
         id:"",
         imageURL: ""
     });
+
+    const [optionsClient , setOptionsClient] = useState(false)
 
     
     const storage = getStorage();
@@ -103,6 +107,10 @@ export const ClientProfile = () => {
                     <button type="button" onClick={handlePersonalizar} className="btn btn-secondary btn-lg">
                         <TbPencil/> 
                     </button>
+
+                    <button type="button" onClick={() => setOptionsClient(true)} className="btn btn-secondary btn-lg">
+                        <RiSettings4Fill/>
+                    </button>
                 </Stack>
                 
                 {isbio &&
@@ -130,7 +138,10 @@ export const ClientProfile = () => {
 
                 }
 
-            </div>                
+            </div>
+            {optionsClient &&
+            <ManageCreditCard open={optionsClient} setOpen={setOptionsClient}></ManageCreditCard>
+            }
         </div>
 
     )
