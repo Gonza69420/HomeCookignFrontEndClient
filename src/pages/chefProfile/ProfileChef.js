@@ -12,6 +12,8 @@ import { ReviewCard } from '../../components/reviewCard';
 import { useHistory, useParams } from 'react-router-dom'
 import {CreateSolicitude} from "../../components/CreateSolicitude/CreateSolicitude.tsx";
 import toast from "react-hot-toast";
+import {GetAvailableDates} from "../../queries/DateQueries.tsx";
+import {EventCalendar} from "../../objects/EventCalendar.tsx";
 
 export const ProfileChef = () => {
     const [menuPopUp , setmenuPopUp] = useState(false);
@@ -29,7 +31,6 @@ export const ProfileChef = () => {
     const [restaurantData, setRestaurantData] = useState([{}]);
     const [isRestaurantDataEmpty, setRestaurantDataEmpty] = useState(false);
     const [createSolicitude, setCreateSolicitude] = useState(false);
-
 
     useEffect(() => {
         if(sessionStorage.getItem('token') === null){
@@ -173,7 +174,7 @@ export const ProfileChef = () => {
 
                         return(
                             <>
-                                <MenuCard url={menu.imageurl} name={menu.name} description={menu.shortDescription} menuid={menu.id} eliminar={false} />
+                                <MenuCard url={menu.imageurl} name={menu.name} description={menu.description} shortDescription={menu.shortDescription} menuid={menu.id} eliminar={false} price={menu.price} />
                             </>
                         )
                     })
@@ -186,7 +187,7 @@ export const ProfileChef = () => {
             </div>
             <br/>
             {createSolicitude &&
-                <CreateSolicitude setClose={setCreateSolicitude} open={createSolicitude} chefName={chefData.firstName + " "+ chefData.lastName} allowedDates={allowedDates} menus={dataMenu[0]} imageURL={chefData.imageURL} tarjetas={["3243232", "13232112332"]}/>
+                <CreateSolicitude setClose={setCreateSolicitude} open={createSolicitude} chefName={chefData.firstName + " "+ chefData.lastName} menus={dataMenu[0]} imageURL={chefData.imageURL} tarjetas={["3243232", "13232112332"]} chefMail={chefData.mail}/>
             }
         </div>
         )

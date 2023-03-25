@@ -21,13 +21,21 @@ export  const MainPage = () => {
     const [chefName , setchefName] = useState('');
     const [menuName , setmenuName] = useState('');
 
-    const {first, last , lastPage} = useSearchChef({
+    const {first, last , lastPage, refetch} = useSearchChef({
         chefName : chefName,
         menuName : menuName,
         onCompleted: (data) => {
+            if (data.length === 0) {
+                setisChefDataEmpty(false);
+            }else{
+                setisChefDataEmpty(true);
+            }
             setfilteredData(data)
         },
-        onError: (e) => toast.error(e.message),
+        onError: (e) => {
+            setisChefDataEmpty(false);
+            toast.error(e.message)
+        },
     })
 
 
@@ -64,10 +72,10 @@ export  const MainPage = () => {
             setmenuName(searchInput);
             setchefName('');
         }
+        refetch();
     }
 
     const handleSelect = (e) => {
-      console.log(e);
       setDropdown(e);
     }
 
@@ -115,18 +123,18 @@ export  const MainPage = () => {
               
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
-            {filteredData.length > 0 &&
+            {isChefDataEmpty&&
 
             <>
               {filteredData.map(chef => {
                 return(
-                  <>   
-                <ChefCard url={chef.imageURL} firstname={chef.firstName} lastname={chef.lastName} Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
-                </>
+                    <>
+                        <ChefCard url={chef.chefProfile.imageURL} firstname={chef.chefProfile.firstName} lastname={chef.chefProfile.lastName} Restaurante="" onClick={() => {window.location.href = `/chefProfile/${chef.id}`}}/>
+                    </>
                 )
               })}
             </>
-}
+            }
             </Stack>
           </div>
         </div>

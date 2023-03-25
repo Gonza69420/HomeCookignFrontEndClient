@@ -3,6 +3,9 @@ import {useState} from "react";
 
 import "./AddCard.css"
 import toast from "react-hot-toast";
+import {checkCVVIsLength, checkIfCardIsLength, checkIfYearIsLength} from "./CardConditions.tsx";
+import {addCard} from "../../queries/CardQueries.tsx";
+import {Card} from "../../objects/Card.tsx";
 interface Props{
 open : boolean;
 setOpen : (open : boolean) => void;
@@ -16,7 +19,7 @@ const [year , setYear] = useState<string>("");
 const [cvv , setCvv] = useState<string>("");
 
 const handleCardNumberChange = (event : any) => {
-    if(event.target.value as Number){
+    if(event.target.value as Number || event.target.value == ""){
         if((event.target.value.length +1) % 5 == 0 && event.target.value.length < 19){
             event.target.value += "-";
         }
@@ -29,13 +32,13 @@ const handleCardNumberChange = (event : any) => {
     }
 
 const handleMonthChange = (event : any) => {
-    if(event.target.value <= 12 && event.target.value >= 1){
+    if(event.target.value <= 12 && event.target.value >= 1 || event.target.value == ""){
         setMonth(event.target.value);
     }
 }
 
 const handleYearChange = (event : any) => {
-    if(event.target.value.length <= 4){
+    if(event.target.value <= 9999 && event.target.value >= 1 || event.target.value == ""){
         setYear(event.target.value);
     }
 }
@@ -44,6 +47,25 @@ const handleCVVChange = (event : any) => {
     if(event.target.value.length <= 3){
         setCvv(event.target.value);
     }
+}
+
+
+const handleSubmit = () => {
+    if(cardNumber == "" || month == "" || year == "" || cvv == ""){
+        toast.error("Por favor llene todos los campos");
+    }
+    if (checkCVVIsLength(cvv) && checkIfCardIsLength(cardNumber) && checkIfYearIsLength(year)){
+        return;
+    }
+    const card : Card = {
+        cardNumber : cardNumber,
+        expirationMonth : parseInt(month),
+        expirationYear : parseInt(year),
+        CVV : parseInt(cvv)
+    }
+    addCard(card, props.setOpen)
+
+
 }
 
     return(
@@ -58,11 +80,11 @@ const handleCVVChange = (event : any) => {
 
                     <TextField variant={"outlined"} type={"number"} onChange={(e) => handleMonthChange(e)} value={month} label={"Mes de Vencimiento"}/>
 
-                    <TextField variant={"outlined"} type={"number"} onChange={(e) => handleYearChange(e)} label={"Año de Vencimiento"}/>
+                    <TextField variant={"outlined"} type={"number"} onChange={(e) => handleYearChange(e)} value={year} label={"Año de Vencimiento"}/>
 
-                    <TextField variant={"outlined"} type={"number"} onChange={(e) => handleCVVChange(e)} label={"CVV"}/>
+                    <TextField variant={"outlined"} type={"number"} onChange={(e) => handleCVVChange(e)} value={cvv} label={"CVV"}/>
 
-                    <Button variant={"contained"} className={"addCardButton"}>Agregar</Button>
+                    <Button variant={"contained"} className={"addCardButton"} onClick={() => handleSubmit()}>Agregar</Button>
                 </div>
             </Box>
         </Modal>

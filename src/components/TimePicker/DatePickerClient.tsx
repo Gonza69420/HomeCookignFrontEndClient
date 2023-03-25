@@ -3,10 +3,11 @@ import {DatePicker, LocalizationProvider, PickersDay} from "@mui/x-date-pickers"
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {TextField} from "@mui/material";
 import * as dayjs from "dayjs";
+import {EventCalendar} from "../../objects/EventCalendar.tsx";
 
 
 interface Props{
-    allowedDates : Date[];
+    allowedDates : EventCalendar[];
     onChange : (date : any) => void;
 }
 export const DatePickerClient = (props : Props) => {
@@ -18,7 +19,7 @@ export const DatePickerClient = (props : Props) => {
     }
     function isAllowedDate(date) {
         return props.allowedDates.some((allowedDate) => {
-            return dayjs(allowedDate).isSame(date, "day");
+            return dayjs(allowedDate.date).isSame(date, "day");
         });
     }
 

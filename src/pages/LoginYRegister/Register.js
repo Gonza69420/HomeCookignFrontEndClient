@@ -63,10 +63,11 @@ export const Register = () => {
 
     return(
         <div className="containerLogin">
+            <div className={"containerLoginForm"}>
             <div className={"containerRegisterLogin"}>
                 <h1 className={"registerTittle"}>Register</h1>
                 <br/>
-                <Form id="sign in-form" action="" onSubmit={onSubmit} className = "text-center w-100">
+                <Form id="sign in-form" action="" className = "text-center w-100">
                  <Form.Group className="registerFields" controlId="exampleForm.ControlInput0">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control type="email" placeholder="name@example.com" onChange={handleChange} name="username"/>
@@ -100,12 +101,13 @@ export const Register = () => {
                     <Form.Control type="text" placeholder="DNI" name="dni" onChange={handleChange}/>
                 </Form.Group>
 
-                <Button variant="primary" type="submit" className={"buttonSubmitRegister"}>
+                <Button variant="primary" type="submit" className={"buttonSubmitRegister"} onClick={(e) => onSubmit(e)}>
                     Submit
                 </Button>
 
                 </Form>
             </div>
+        </div>
         </div>
   )
 }

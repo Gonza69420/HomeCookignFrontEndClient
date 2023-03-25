@@ -25,16 +25,29 @@ export const useSearchChef = (search : search) => {
     const [first , setFirst] = useState<boolean>(false);
     const [last , setLast] = useState<boolean>(false);
     const [lastPage , setLastPage] = useState<number>(0);
+    const [menuOrChef , setMenuOrChef] = useState<string>("");
+    const checkIfChef = () => {
+        if(search.chefName != ""){
+            setMenuOrChef("menu");
+            return menuOrChef;
+        }
+        setMenuOrChef("chef")
+        return menuOrChef;
+    }
 
     const fetchData = () => {
         axios
             .post(
-                `http://localhost:8080/chefFilter?page=0&size=20`,
+                `http://localhost:8080/filter/${checkIfChef()}?page=0`,
                 {
                     chefName: search.chefName,
                     menuName : search.menuName,
-                    category : "",
-                    city : ""
+                    category : search.menuName,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
                 }
             )
             .then((res) => {
