@@ -29,22 +29,22 @@ const request = (options) => {
 };
 
 export function getUsers(id ) {
-    if (!sessionStorage.getItem("accessToken")) {
+    if (!sessionStorage.getItem("token")) {
         return Promise.reject("No access token set.");
     }
 
     return request({
-        url: CHAT_SERVICE + "/messages/chef/contacts/" + id,
+        url: CHAT_SERVICE + "/chat/messages/chef/contacts/" + id,
         method: "GET",
     });
 }
 export function countNewMessages(senderId, recipientId) {
-    if (!sessionStorage.getItem("accessToken")) {
+    if (!sessionStorage.getItem("token")) {
         return Promise.reject("No access token set.");
     }
 
     return request({
-        url: CHAT_SERVICE + "/messages/" + senderId + "/" + recipientId + "/count",
+        url: CHAT_SERVICE + "/chat/messages/" + senderId + "/" + recipientId + "/count",
         method: "GET",
     });
 }
@@ -55,18 +55,18 @@ export function findChatMessages(senderId, recipientId) {
     }
 
     return request({
-        url: CHAT_SERVICE + "/messages/" + senderId + "/" + recipientId,
+        url: CHAT_SERVICE + "/chat/messages/" + senderId + "/" + recipientId,
         method: "GET",
     });
 }
 
 export function findChatMessage(id) {
-    if (!sessionStorage.getItem("accessToken")) {
+    if (!sessionStorage.getItem("token")) {
         return Promise.reject("No access token set.");
     }
 
     return request({
-        url: CHAT_SERVICE + "/messages/" + id,
+        url: CHAT_SERVICE + "/chat/messages/" + id,
         method: "GET",
     });
 }

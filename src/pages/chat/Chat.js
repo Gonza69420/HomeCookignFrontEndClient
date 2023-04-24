@@ -197,9 +197,9 @@ export const Chat = (props) => {
                             >
                                 <div class="wrap">
                                     <span class="contact-status online"></span>
-                                    <img id={contact.id} src={contact.profilePicture} alt="" />
+                                    <img id={contact.id} src={contact.chefProfile.imageURL} alt="" />
                                     <div class="meta">
-                                        <p class="name">{contact.name}</p>
+                                        <p class="name">{contact.fullNameChef}</p>
                                         {contact.newMessages !== undefined &&
                                             contact.newMessages > 0 && (
                                                 <p class="preview">
