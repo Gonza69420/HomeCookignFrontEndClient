@@ -34,7 +34,7 @@ export function getUsers(id ) {
     }
 
     return request({
-        url: CHAT_SERVICE + "/chat/messages/chef/contacts/" + id,
+        url: CHAT_SERVICE + "/messages/client/contacts/" + id,
         method: "GET",
     });
 }
@@ -44,7 +44,7 @@ export function countNewMessages(senderId, recipientId) {
     }
 
     return request({
-        url: CHAT_SERVICE + "/chat/messages/" + senderId + "/" + recipientId + "/count",
+        url: CHAT_SERVICE + "/messages/" + senderId + "/" + recipientId + "/count",
         method: "GET",
     });
 }
@@ -55,7 +55,7 @@ export function findChatMessages(senderId, recipientId) {
     }
 
     return request({
-        url: CHAT_SERVICE + "/chat/messages/" + senderId + "/" + recipientId,
+        url: CHAT_SERVICE + "/messages/" + senderId + "/" + recipientId,
         method: "GET",
     });
 }
@@ -66,7 +66,7 @@ export function findChatMessage(id) {
     }
 
     return request({
-        url: CHAT_SERVICE + "/chat/messages/" + id,
+        url: CHAT_SERVICE + "/messages/" + id,
         method: "GET",
     });
 }

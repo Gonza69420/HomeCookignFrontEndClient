@@ -52,7 +52,7 @@ export const Chat = (props) => {
         }
         connect();
         loadContacts();
-    }, []);
+    }, [currentUser]);
 
     useEffect(() => {
         const fetchData = async () => {

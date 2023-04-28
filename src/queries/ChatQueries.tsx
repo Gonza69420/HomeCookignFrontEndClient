@@ -13,7 +13,7 @@ export const GetContacts = async (id: number) => {
     };
 
     try {
-        const res = await axios.get(`http://localhost:8080/chat/messages/client/contacts/${id}`, config);
+        const res = await axios.get(`http://localhost:8080/messages/client/contacts/${id}`, config);
         return res.data;
     } catch (e) {
         throw new Error(e.message);
