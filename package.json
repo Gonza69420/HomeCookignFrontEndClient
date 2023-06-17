@@ -26,6 +26,7 @@
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "react-scroll-to-bottom": "^4.2.0",
+    "react-spinners": "^0.13.8",
     "recoil": "^0.7.7",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.1.3",

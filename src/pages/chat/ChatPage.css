@@ -1,0 +1,15 @@
+.containerChatPage{
+    margin-top: 3%;
+    display: flex;
+    justify-content: center;
+
+}
+
+.backgroundChatPage{
+    height: 100%;
+    background-color: rgb(104, 104, 104);
+    min-height: 100%;
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}

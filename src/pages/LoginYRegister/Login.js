@@ -41,6 +41,7 @@ export const Login = () => {
                     toast.success( 'Login Successful');
                     sessionStorage.setItem("mail" , data.username);
                     sessionStorage.setItem('token', res.accessToken);
+                    sessionStorage.setItem('id', data.id);
                     navigate('/mainPage');
 
                 }

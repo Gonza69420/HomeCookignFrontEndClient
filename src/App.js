@@ -7,7 +7,7 @@ import { MainPage } from './pages/clientMainPage/mainPage';
 import { ClientProfile } from './pages/clientChefProfile/clientProfile';
 import { ProfileChef } from './pages/chefProfile/ProfileChef';
 import {PedidosCliente} from "./pages/pedidos/PedidosCliente"
-import { Chat } from './pages/chat/Chat';
+import { ChatPage } from './pages/chat/ChatPage.tsx';
 import {Test} from "./pages/Test.tsx";
 import {Test2} from "./pages/Test2.tsx";
 import {Toaster} from "react-hot-toast";
@@ -25,7 +25,7 @@ function App() {
           <Route path="/profile" element={<ClientProfile/>}/>
           <Route path='/chefProfile/:id' element={<ProfileChef/>}/>
           <Route path='/pedidosCliente' element={<PedidosCliente/>}/>
-          <Route path='/chat' element={<Chat/>}/>
+          <Route path='/chat' element={<ChatPage/>}/>
           <Route path='/test' element={<Test/>}/>
           <Route path={'/test2'} element={<Test2/>}/>
         </Routes>
