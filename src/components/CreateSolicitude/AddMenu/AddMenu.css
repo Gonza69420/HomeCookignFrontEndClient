@@ -1,0 +1,57 @@
+.BoxAddMenu{
+    background-color: #f8eadd;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    border: 2px solid #a6a6a6;
+    border-radius: 10px;
+    min-width: 25%;
+    transform: translate(-50%, -50%);
+    box-shadow: 10px 10px 10px 1px rgba(66, 66, 66, 0.75);
+    padding: 20px;
+    min-height: 420px;
+}
+
+.divTittleAddMenu{
+    margin-bottom: 5%;
+    border-bottom: 1px solid #a6a6a6;
+}
+
+.divMenusAddMenu{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.imagenAddMenu {
+    display: flex;
+    height: 15%;
+    width: 15%;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.divAddMenu{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.divButtonsAddMenu{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 25%;
+    align-items: center;
+    
+
+}
+
+.plusAddMenu{
+    background-color: #329827 !important;
+}
+
+.decreaseAddMenu{
+    background-color: #c92a2a !important;
+}
