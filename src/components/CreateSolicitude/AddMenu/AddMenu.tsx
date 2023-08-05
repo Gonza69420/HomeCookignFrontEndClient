@@ -13,9 +13,9 @@ interface MenuAndPrice{
 interface Props{
     Menus : MenuInterface[];
     open : boolean;
+    setOpen? : (open : boolean) => void;
 }
 export const AddMenu = (props : Props) => {
-const [open, setOpen] = useState<boolean>(false);
 
     const createMenuAndPrice = () : MenuAndPrice[] => {
         let menuAndPrice : MenuAndPrice[] = [];
@@ -25,8 +25,7 @@ const [open, setOpen] = useState<boolean>(false);
         return menuAndPrice;
     }
 
-let menus = createMenuAndPrice();
-
+const [menus , setMenus] = useState<MenuAndPrice[]>(createMenuAndPrice());
     function busquedaLineal<T>(array: T[], elementoBuscado: T): number {
         for (let i = 0; i < array.length; i++) {
             if (array[i] === elementoBuscado) {
@@ -39,21 +38,36 @@ let menus = createMenuAndPrice();
     const getMenusArray = () : MenuInterface[] => {
         let menusArray : MenuInterface[] = [];
         for (let i = 0; i < menus.length; i++) {
-            if(menus[i].quantity > 0){
                 menusArray.push(menus[i].menu);
-            }
         }
         return menusArray;
     }
 
     const increaseQuantity = (menu : MenuInterface) => {
-        let index = busquedaLineal<MenuInterface>(getMenusArray(), menu);
-        menus[index].quantity++;
+        const updatedMenus = menus.map((m) =>
+                m.menu === menu ? { ...m, quantity: m.quantity + 1 } : m
+            );
+            setMenus(updatedMenus);
     }
 
-    const decreaseQuantity = (menu : MenuInterface) => {
-        let index = busquedaLineal<MenuInterface>(getMenusArray(), menu);
-        menus[index].quantity--;
+    const decreaseQuantity = (menu) => {
+        const updatedMenus = menus.map((m) =>
+            m.menu === menu && m.quantity > 0 ? { ...m, quantity: m.quantity - 1 } : m
+        );
+        setMenus(updatedMenus);
+    }
+
+
+    const terminar = () => {
+        props.setOpen(false);
+    }
+
+    const getFinalPrice = () : number => {
+        let finalPrice : number = 0;
+        for (let i = 0; i < menus.length; i++) {
+            finalPrice += menus[i].menu.price * menus[i].quantity;
+        }
+        return finalPrice;
     }
 
 
@@ -63,6 +77,8 @@ let menus = createMenuAndPrice();
                 <Box className={"BoxAddMenu"}>
                     <div className={"divTittleAddMenu"}>
                         <h1>Elegi el Menu</h1>
+
+                        <h1 className={"finalPriceAddMenu"}>Precio: $.- {getFinalPrice()}</h1>
                     </div>
 
                     <div className={"divMenusAddMenu"}>
@@ -71,21 +87,31 @@ let menus = createMenuAndPrice();
                                 <div className={"divAddMenu"}>
                                     <img className={"imagenAddMenu"} src={menu.menu.imageURL}/>
 
-                                    <div>
-                                        <h2> {menu.menu.name}</h2>
-                                    </div>
+                                    <div className={"divTextButtonAddMenu"}>
 
-                                    <div>
-                                        <h2> {menu.menu.price}</h2>
-                                    </div>
+                                        <div>
+                                            <h2 className={"nameMenuAddMenu"}> {menu.menu.name}</h2>
+                                        </div>
 
-                                    <div className={"divButtonsAddMenu"}>
-                                        <Button variant={"contained"} className={"plusAddMenu"} onClick={() => increaseQuantity(menu.menu)}>+</Button>
-                                        <Button variant={"contained"} className={"decreaseAddMenu"} onClick={() => decreaseQuantity(menu.menu)}>-</Button>
+                                        <div className={"divpriceMenuAddMenu"}>
+                                            <h2 className={"priceMenuAddMenu"}> $.- {menu.menu.price}</h2>
+                                        </div>
+
+                                        <div className={"divButtonsAddMenu"}>
+                                            <Button variant={"contained"} className={"plusAddMenu"} onClick={() => increaseQuantity(menu.menu)}>+</Button>
+                                            <Button variant={"contained"} className={"decreaseAddMenu"} onClick={() => decreaseQuantity(menu.menu)}>-</Button>
+                                            <h2 className={"priceMenuAddMenu"}> x{menu.quantity}</h2>
+
+                                        </div>
                                     </div>
                                 </div>
                             )}
                         )}
+                    </div>
+
+                    <div className={"AcceptCancelButtonAddMenuDiv"}>
+                        <Button variant={"contained"} className={"TerminarAddMenu"} onClick={() => terminar()}>TERMINAR</Button>
+
                     </div>
                 </Box>
             </Modal>

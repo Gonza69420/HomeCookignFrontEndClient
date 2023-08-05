@@ -10,12 +10,14 @@
     transform: translate(-50%, -50%);
     box-shadow: 10px 10px 10px 1px rgba(66, 66, 66, 0.75);
     padding: 20px;
-    min-height: 420px;
+    min-height: 220px;
 }
 
 .divTittleAddMenu{
     margin-bottom: 5%;
     border-bottom: 1px solid #a6a6a6;
+    display: flex;
+    flex-direction: row;
 }
 
 .divMenusAddMenu{
@@ -36,6 +38,8 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
+    border-bottom: #c6cbce 1px solid;
+    padding-bottom: 10px;
 }
 
 .divButtonsAddMenu{
@@ -44,7 +48,8 @@
     gap: 10px;
     height: 25%;
     align-items: center;
-    
+    margin-top: 2%;
+    margin-left: 2%;
 
 }
 
@@ -54,4 +59,41 @@
 
 .decreaseAddMenu{
     background-color: #c92a2a !important;
+}
+
+.nameMenuAddMenu{
+
+}
+
+.priceMenuAddMenu{
+    color: #595b5c;
+}
+
+.divpriceMenuAddMenu{
+    margin-left: auto;
+}
+
+.divTextButtonAddMenu{
+    margin-top: 2%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.AcceptCancelButtonAddMenuDiv{
+    width: 100%;
+    justify-content: center;
+}
+
+.TerminarAddMenu{
+    width: 96% !important;
+    margin-top: 2%;
+    margin-left: 2% !important;
+    margin-right: 2% !important;
+    background-color: #d9811a !important;
+}
+
+.finalPriceAddMenu{
+    margin-left: auto;
+    font-weight: bold;
 }
