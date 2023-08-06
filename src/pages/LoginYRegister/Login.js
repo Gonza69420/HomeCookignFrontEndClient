@@ -12,7 +12,6 @@ export const Login = () => {
 
     useEffect(() => {
         if(sessionStorage.getItem('token') !== null){
-          console.log(sessionStorage.getItem('token'));
             window.location.href = '/mainPage';
         }
     }, [])
@@ -20,7 +19,6 @@ export const Login = () => {
     const navigate = useNavigate();
 
     const onSubmit = (e) => {
-        console.log(data);
         e.preventDefault();
             (fetch("http://localhost:8080/api/auth/signin", {
             method: "POST",
@@ -53,7 +51,6 @@ export const Login = () => {
     
 
     const handleChange = (e) => {
-        console.log(e.target.value);
         setData({
             ...data,
             [e.target.name]: e.target.value

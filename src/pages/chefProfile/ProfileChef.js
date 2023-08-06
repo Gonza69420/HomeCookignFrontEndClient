@@ -62,7 +62,6 @@ export const ProfileChef = () => {
         fetch(`http://localhost:8080/dbInfo/getMenuByChef/${id}`, requestOptions)
         .then(response => response.text())
         .then(result => {
-            console.log(JSON.parse(result));
 
             dataMenu[0]= (JSON.parse(result));
             
@@ -84,48 +83,35 @@ export const ProfileChef = () => {
         fetch("http://localhost:8080/dbInfo/getRestaurant/" + chefData.mail, requestOptions)
         .then(response => response.text())
         .then(result => {
-            console.log(JSON.parse(result));
 
             restaurantData[0]= (JSON.parse(result));
             
-            console.log(restaurantData)
             if(restaurantData[0][0].name !== undefined){
                 setRestaurantDataEmpty(true);
-                console.log(isRestaurantDataEmpty)
             }
         }
         )
-        .catch(error => console.log('error', error));
+        .catch(error => toast.error( error.message()));
     }, [chefData.mail]);
 
+    const createMenuInterface = () => {
+        let menuArray = dataMenu;
+        let menuInterface = []
+        menuArray.map((menu, index) => {
+            console.log(menu)
+            menu.map((menu, index) => {
+                menuInterface.push(
+                    {
+                        name: menu.name,
+                        price: menu.price,
+                        imageURL: menu.imageurl,
+                    }
+                )
+            })
+        })
 
-    const [allowedDates, setAllowedDates] = useState([
-        {
-            date: new Date(2023,0,26),
-            hour: ["10:00-20:30"]
-        },
-        {
-            date: new Date(2023,1,2),
-            hour: ["10:00-20:30"]
-        },
-        {
-            date: new Date(2023,1,5),
-            hour: ["10:00-12:30" , "13:00-20:30"]
-        }
-    ]);
-
-    const [menus, setMenus] = useState([
-        {
-            name: "Menu 1",
-            price: 1000,
-        },
-        {
-            name: "Menu 2",
-            price: 2000,
-        }
-    ]);
-
-
+        return menuInterface;
+    }
 
 
     return (
@@ -187,7 +173,7 @@ export const ProfileChef = () => {
             </div>
             <br/>
             {createSolicitude &&
-                <CreateSolicitude setClose={setCreateSolicitude} open={createSolicitude} chefName={chefData.firstName + " "+ chefData.lastName} menus={dataMenu[0]} imageURL={chefData.imageURL} tarjetas={["3243232", "13232112332"]} chefMail={chefData.mail}/>
+                <CreateSolicitude setClose={setCreateSolicitude} open={createSolicitude} chefName={chefData.firstName + " "+ chefData.lastName} menus={createMenuInterface(dataMenu)} imageURL={chefData.imageURL} tarjetas={["3243232", "13232112332"]} chefMail={chefData.mail}/>
             }
         </div>
         )

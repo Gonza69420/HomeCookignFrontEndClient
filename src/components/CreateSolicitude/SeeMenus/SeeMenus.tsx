@@ -1,6 +1,6 @@
 import {Box, Button, Modal} from "@mui/material";
 import {useState} from "react";
-import "./AddMenu.css"
+
 export interface MenuInterface{
     name : string;
     price : number;
@@ -12,46 +12,26 @@ export interface MenuAndPrice{
 }
 interface Props{
     Menus : MenuAndPrice[];
-    setMenus : (menus : MenuAndPrice[]) => void;
-    setPrice : (price : number) => void;
     open : boolean;
     setOpen? : (open : boolean) => void;
 }
-export const AddMenu = (props : Props) => {
+export const SeeMenus = (props : Props) => {
 
+    const [menus , setMenus] = useState<MenuAndPrice[]>(props.Menus);
 
-
-const [menus , setMenus] = useState<MenuAndPrice[]>(props.Menus);
-
-    const increaseQuantity = (menu : MenuInterface) => {
-        const updatedMenus = menus.map((m) =>
-                m.menu === menu ? { ...m, quantity: m.quantity + 1 } : m
-            );
-            setMenus(updatedMenus);
-            props.setMenus(updatedMenus);
-    }
-
-    const decreaseQuantity = (menu) => {
-        const updatedMenus = menus.map((m) =>
-            m.menu === menu && m.quantity > 0 ? { ...m, quantity: m.quantity - 1 } : m
-        );
-        setMenus(updatedMenus);
-        props.setMenus(updatedMenus);
-    }
-
-
-    const terminar = () => {
-        props.setOpen(false);
-    }
 
     const getFinalPrice = () : number => {
         let finalPrice : number = 0;
         for (let i = 0; i < menus.length; i++) {
             finalPrice += menus[i].menu.price * menus[i].quantity;
         }
-        props.setPrice(finalPrice);
         return finalPrice;
     }
+
+    const terminar = () => {
+        props.setOpen(false);
+    }
+
 
 
     return (
@@ -59,9 +39,9 @@ const [menus , setMenus] = useState<MenuAndPrice[]>(props.Menus);
             <Modal open={props.open}>
                 <Box className={"BoxAddMenu"}>
                     <div className={"divTittleAddMenu"}>
-                        <h1>Elegi el Menu</h1>
+                        <h1>Menus elegidos:</h1>
 
-                        <h1 className={"finalPriceAddMenu"}>Precio: $.- {getFinalPrice()}</h1>
+                        <h1 className={"finalPriceAddMenu"}>Precio Final: $.- {getFinalPrice()}</h1>
                     </div>
 
                     <div className={"divMenusAddMenu"}>
@@ -77,15 +57,12 @@ const [menus , setMenus] = useState<MenuAndPrice[]>(props.Menus);
                                         </div>
 
                                         <div className={"divpriceMenuAddMenu"}>
-                                            <h2 className={"priceMenuAddMenu"}> $.- {menu.menu.price}</h2>
-                                        </div>
+                                            <h2 className={"priceMenuAddMenu"}> $.- {menu.menu.price}  .</h2>
 
-                                        <div className={"divButtonsAddMenu"}>
-                                            <Button variant={"contained"} className={"plusAddMenu"} onClick={() => increaseQuantity(menu.menu)}>+</Button>
-                                            <Button variant={"contained"} className={"decreaseAddMenu"} onClick={() => decreaseQuantity(menu.menu)}>-</Button>
                                             <h2 className={"priceMenuAddMenu"}> x{menu.quantity}</h2>
 
                                         </div>
+
                                     </div>
                                 </div>
                             )}

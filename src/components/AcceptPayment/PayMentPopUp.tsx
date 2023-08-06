@@ -3,13 +3,15 @@ import {Box, Button, FormControl, InputLabel, MenuItem, Modal, Select} from "@mu
 import "./PayMentPopUp.css"
 import {Profileimage} from '../../components/profileimage';
 import {MenuChef} from "../../objects/Menu";
+import {SeeMenus} from "../CreateSolicitude/SeeMenus/SeeMenus.tsx";
+import {MenuAndPrice} from "../CreateSolicitude/AddMenu/AddMenu.tsx";
 
 interface Props{
 ammount : number;
 cardList : string[];
 chefName: string;
 fecha: string;
-chefMenu : MenuChef;
+chefMenu : MenuAndPrice[];
 setClose : (open : boolean) => void;
 ammountPeople : number;
 
@@ -30,9 +32,9 @@ const style = {
 
 export const PayMentPopUp = (props : Props) => {
     const [open , setOpen] = useState(props.open);
-    const [ammount , setAmmount] = useState(props.ammount);
     const [cards , setCards] = useState(props.cardList);
     const [selectedCard , setSelectedCard] = useState("")
+    const [seeMenus , setSeeMenus] = useState<boolean>(false);
 
     const handleClose = () => {
         setOpen(false);
@@ -49,6 +51,7 @@ export const PayMentPopUp = (props : Props) => {
 
     return(
         <div>
+            <SeeMenus open={seeMenus} setOpen={setSeeMenus} Menus={props.chefMenu} ></SeeMenus>
             <Modal open={open} >
                 <Box className={"BoxPayment"}>
                     <div className={"tituloPayment"}>
@@ -63,13 +66,7 @@ export const PayMentPopUp = (props : Props) => {
 
                     <div className={"fecharowPayment"}>
                         <h4 className={"MenutittlePayment"}>Menu: </h4>
-                        <h4 className={"MenuPayment"}>{props.chefMenu?.name}</h4>
-                    </div>
-
-                    <div className={"fecharowPayment"}>
-                        <h4 className={"MenutittlePayment"}>Personas: </h4>
-                        <h4 className={"MenuPayment"}>{props.ammountPeople}</h4>
-
+                        <Button variant={"contained"} onClick={() => setSeeMenus(true)}>Mirar menus</Button>
                     </div>
 
                     <div className={"fecharowPayment"}>
@@ -91,7 +88,7 @@ export const PayMentPopUp = (props : Props) => {
                     </div>
 
                     <div className={"cardRowDivPayment"}>
-                        <h4 className={"totalAPagarPayment"}>Total a pagar: {ammount}$</h4>
+                        <h4 className={"totalAPagarPayment"}>Total a pagar: {props.ammount}$</h4>
 
                         <div className={"ButtonsPayment"}>
                             <Button variant="contained" color="success" className={"successPayment"}>

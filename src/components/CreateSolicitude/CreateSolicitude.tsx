@@ -11,11 +11,13 @@ import toast from "react-hot-toast";
 import {PayMentPopUp} from "../AcceptPayment/PayMentPopUp.tsx";
 import {EventCalendar} from "../../objects/EventCalendar.tsx";
 import {GetAvailableDates, GetHoursFromDate} from "../../queries/DateQueries.tsx";
+import {AddMenu, MenuAndPrice, MenuInterface} from "./AddMenu/AddMenu.tsx";
+
 interface Props{
     open: boolean;
     chefName: string;
     imageURL : string;
-    menus : MenuChef[];
+    menus : MenuInterface[];
     setClose : (open : boolean) => void;
     tarjetas : string[];
     chefMail : string;
@@ -32,6 +34,7 @@ export const CreateSolicitude = (props : Props) => {
     const [menu, setMenu] = useState<MenuChef>();
     const [number, setNumber] = useState<number>(0);
     const [payment , setPayment] = useState<boolean>(false);
+    const[open , setOpen] = useState<boolean>(false);
 
     const [events, setEvents] = useState<EventCalendar[]>([]);
 
@@ -89,19 +92,6 @@ export const CreateSolicitude = (props : Props) => {
         }
     }
 
-    const proceedToPayment = () => {
-        if (date == undefined || hour == "" || menu == undefined || number == 0){
-            toast.error("Por favor llenar todos los campos");
-            return;
-        }
-
-        setPayment(true);
-    }
-
-    const getTotalPrice = () : number => {
-        return Math.ceil(menu!.price * number * 1.10);
-    }
-
     const getYearMonthDay = (datee : Date) => {
         let date = new Date(datee);
         let month : string = (date.getMonth() + 1).toString();
@@ -136,11 +126,38 @@ export const CreateSolicitude = (props : Props) => {
 
     }
 
+    const createMenuAndPrice = () : MenuAndPrice[] => {
+        let menuAndPrice : MenuAndPrice[] = [];
+        for (let i = 0; i < props.menus.length; i++) {
+            menuAndPrice.push({menu : props.menus[i], quantity : 0})
+        }
+        return menuAndPrice;
+    }
+
+    const [menuAndQuantity , setMenuAndQuantity] = useState<MenuAndPrice[]>(createMenuAndPrice());
+
+    const[price , setPrice] = useState<number>(0);
+
+    const getTotalPrice = () : number => {
+        return Math.ceil(price * 1.10);
+    }
+
+    const proceedToPayment = () => {
+        console.log(price)
+        if (date == undefined || hour == "" || price == 0){
+            toast.error("Por favor llenar todos los campos");
+            return;
+        }
+
+        setPayment(true);
+    }
+
 
     return(
         <>
             <Modal open={props.open}>
                 <div>
+                    <AddMenu open={open} setOpen={setOpen} Menus={menuAndQuantity} setMenus={setMenuAndQuantity} setPrice={setPrice}></AddMenu>
                 <Box className={"BoxCreateSolicitude"}>
                     <div className={"tituloCreateSolicitude"}>
                         <h1 className={"ChefNameCreateSolcitude"}>{props.chefName}</h1>
@@ -167,26 +184,14 @@ export const CreateSolicitude = (props : Props) => {
 
                     <div className={"divfechaCreateSolicitude"}>
                         <h2 className={"fechaCreateSolicitude"}>Menu: </h2>
-                        <Select className={"selectHourCreateSolicitude"} onChange={(menu) => handleMenuChange(menu)} label={"Menu"}>
-                            {props.menus.map((menu, index) => {
-                                return(
-                                    <MenuItem value={menu.name} key={index}>{menu.name}</MenuItem>
-                                )
-                            })}
-                        </Select>
-                    </div>
-
-                    <div className={"divfechaCreateSolicitude"}>
-                        <h2 className={"fechaCreateSolicitude"}>Cantidad de personas: </h2>
-                        <TextField value={number} onChange={(event) => handleNumberChange(event)} label="Personas">
-                        </TextField>
+                        <Button variant={"contained"} className={"selectMenuCreateSolicitude"} onClick={() => setOpen(true)}>Seleccionar Menu</Button>
                     </div>
 
                     <div className={"divfechaCreateSolicitude"}>
                         { showPrice() &&
                             <>
                                 <h2 className={"fechaCreateSolicitude"}>Precio: </h2>
-                                <h2 className={"precioCreateSolicitude"}>{menu?.price * number} + 10%</h2>
+                                <h2 className={"precioCreateSolicitude"}>{price} + 10%</h2>
                             </>
                         }
                         <div className={"buttonCreateSolicitude"}>
@@ -198,7 +203,7 @@ export const CreateSolicitude = (props : Props) => {
 
                 </Box>
                 {payment &&
-                    <PayMentPopUp ammountPeople={number} setClose={setPayment} ammount={getTotalPrice()} open={payment} cardList={props.tarjetas} chefMenu={menu} chefName={props.chefName} fecha={date + " " + hour}></PayMentPopUp>
+                    <PayMentPopUp ammountPeople={number} setClose={setPayment} ammount={getTotalPrice()} open={payment} cardList={props.tarjetas} chefMenu={menuAndQuantity} chefName={props.chefName} fecha={date + " " + hour}></PayMentPopUp>
                 }
                 </div>
             </Modal>
