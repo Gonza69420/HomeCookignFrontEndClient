@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {useEffect, useState} from 'react';
 import { AiFillBell } from 'react-icons/ai';
 import { NotificationContainer } from './NotificationContainer.tsx';
 import './Bell.css';
@@ -6,20 +6,56 @@ import {
     UseGetUnReadNotifications
 } from '../../queries/UseGetNotification.tsx';
 import toast from 'react-hot-toast';
+var stompClient = null;
 
 export const Bell = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [hasNotification, setHasNotification] = useState<boolean>(false);
-    UseGetUnReadNotifications({
-        onCompleted: (r) => {
-            if (r.length > 0) {
-                setHasNotification(true);
-            }
-        },
-        onError: (e) => {
-            showSubmitError(e.message);
-        }
-    });
+    const [UnRead, setUnRead] = useState<Notification[]>([] as Notification[]);
+    const [AreadyRead, setAreadyRead] = useState<Notification[]>([] as Notification[]);
+
+    useEffect(() => {
+        connect();
+    }, []);
+
+    const connect = () => {
+        const Stomp = require("stompjs");
+        var SockJS = require("sockjs-client");
+        SockJS = new SockJS("http://localhost:8080/ws");
+        stompClient = Stomp.over(SockJS);
+        stompClient.connect({}, onConnected, onError);
+    };
+
+    const onConnected = () => {
+        console.log("connected");
+        stompClient.subscribe(
+            "/get/unread/" + sessionStorage.getItem("mail") ,
+            onNotificationReceived
+        );
+        stompClient.subscribe(
+            "/get/seen/" + sessionStorage.getItem("mail") ,
+            AreadyReadNotification
+        );
+    };
+
+    const onError = (err) => {
+        console.log(err);
+    };
+
+    const AreadyReadNotification = (payload) => {
+        const notification = JSON.parse(payload.body);
+        setAreadyRead([...AreadyRead, notification]);
+    }
+
+    const onNotificationReceived = (payload) => {
+        const notification = JSON.parse(payload.body);
+        setUnRead([...UnRead, notification]);
+    }
+
+    const openBell = () => {
+        setOpen(!open)
+        stompClient.send("/mark/" + sessionStorage.getItem("mail") , {})
+    }
 
     const showSubmitError = (message) => {
         toast.error(message);
@@ -27,7 +63,7 @@ export const Bell = () => {
 
     return (
         <div className={'centerBell'}>
-            <div className="bell" onClick={() => setOpen(!open)}>
+            <div className="bell" onClick={() => openBell()}>
                 {hasNotification ? <div className={'redCircle'}></div> : <></>}
                 <AiFillBell
                     style={{
@@ -46,7 +82,10 @@ export const Bell = () => {
                     <div className="divposition">
                         <div className={'notificationContainer'}>
                             <NotificationContainer
-                                setHasNotification={setHasNotification}
+                                unReadNotifications={UnRead}
+                                setUnRead={setUnRead}
+                                areadyReadNotifications={AreadyRead}
+                                setAreadyRead={setAreadyRead}
                             ></NotificationContainer>
                         </div>
                     </div>

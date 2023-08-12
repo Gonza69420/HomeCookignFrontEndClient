@@ -16,57 +16,40 @@ interface Notification {
 }
 
 interface NotificationContainer {
-    setHasNotification: (r: boolean) => any;
+    unReadNotifications: Notification[];
+    alreadtReadNotifications: Notification[];
+    setUnRead: (r: Notification[]) => any;
+    setAlreadyRead: (r: Notification[]) => any;
 }
 
 export const NotificationContainer = (props: NotificationContainer) => {
-    const [AlreadyRead, setAlreadyRead] = useState<Notification[]>([] as Notification[]);
-    const [UnRead, setUnRead] = useState<Notification[]>([] as Notification[]);
     const [showUnRead, setShowUnRead] = useState<boolean>(false);
     const [hasUnreadNotifications, setHasUnreadNotifications] = useState<boolean>(false);
     const [unReadDateWasTrimmed, setUnReadDateWasTrimmed] = useState<boolean>(false);
     const [alreadyReadDateWasTrimmed, setAlreadyReadDateWasTrimmed] = useState<boolean>(false);
-    const { loading } = UseGetAlreadyReadNotifications({
-        onCompleted: (r) => {
-            setAlreadyRead(r);
-        },
-        onError: (e) => {
-            showSubmitError(e.message);
-        }
-    });
-    const { loading: loading2 } = UseGetUnReadNotifications({
-        onCompleted: (r) => {
-            setUnRead(r);
-            markNotificationAsRead();
-            props.setHasNotification(false);
-        },
-        onError: (e) => {
-            showSubmitError(e.message);
-        }
-    });
 
     useEffect(() => {
-        if (UnRead.length >= 1 && !unReadDateWasTrimmed) {
-            UnRead.length >= 1 ? setHasUnreadNotifications(true) : setHasUnreadNotifications(false);
-            const newUnread = UnRead.map((notification) => {
+        if (props.unReadNotifications.length >= 1 && !unReadDateWasTrimmed) {
+            props.unReadNotifications.length >= 1 ? setHasUnreadNotifications(true) : setHasUnreadNotifications(false);
+            const newUnread = props.unReadNotifications.map((notification) => {
                 return { ...notification, date: notification.date.split('T')[0] };
             });
 
-            setUnRead(newUnread);
+            props.setUnRead(newUnread);
             setUnReadDateWasTrimmed(true);
         }
-    }, [UnRead]);
+    }, [props.unReadNotifications]);
 
     useEffect(() => {
-        if (AlreadyRead.length >= 1 && !alreadyReadDateWasTrimmed) {
-            const newAlreadyRead = AlreadyRead.map((notification) => {
+        if (props.alreadtReadNotifications.length >= 1 && !alreadyReadDateWasTrimmed) {
+            const newAlreadyRead = props.alreadtReadNotifications.map((notification) => {
                 return { ...notification, date: notification.date.split('T')[0] };
             });
 
-            setAlreadyRead(newAlreadyRead);
+            props.setAlreadyRead(newAlreadyRead);
             setAlreadyReadDateWasTrimmed(true);
         }
-    }, [AlreadyRead]);
+    }, [props.alreadtReadNotifications]);
 
     const markNotificationAsRead = async () => {
         const config = {
@@ -84,18 +67,6 @@ export const NotificationContainer = (props: NotificationContainer) => {
 
     return (
         <div>
-            {loading ? (
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexDirection: 'column',
-                        margin: '20px'
-                    }}
-                >
-                    <Spinner></Spinner>
-                </div>
-            ) : (
                 <>
                     {!hasUnreadNotifications ? (
                         <>
@@ -103,7 +74,7 @@ export const NotificationContainer = (props: NotificationContainer) => {
                         </>
                     ) : (
                         <>
-                            {UnRead.map((notification) => {
+                            {props.unReadNotifications.map((notification) => {
                                 return (
                                     <>
                                         <NotificationTab
@@ -117,28 +88,22 @@ export const NotificationContainer = (props: NotificationContainer) => {
                         </>
                     )}
                 </>
-            )}
             {showUnRead ? (
                 <>
-                    {loading2 ? (
-                        <>
-                            <Spinner></Spinner>
-                        </>
-                    ) : (
-                        <>
-                            {AlreadyRead.map((notification) => {
-                                return (
-                                    <>
-                                        <NotificationTab
-                                            text={notification.text}
-                                            date={notification.date}
-                                            hasBeenSeen={true}
-                                        />
-                                    </>
-                                );
-                            })}
-                        </>
-                    )}
+                    <>
+                        {props.alreadtReadNotifications.map((notification) => {
+                            return (
+                                <>
+                                    <NotificationTab
+                                        text={notification.text}
+                                        date={notification.date}
+                                        hasBeenSeen={true}
+                                    />
+                                </>
+                            );
+                        })}
+                    </>
+
                 </>
             ) : (
                 <>
