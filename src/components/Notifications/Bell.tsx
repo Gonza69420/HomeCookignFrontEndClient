@@ -84,7 +84,7 @@ export const Bell = () => {
                             <NotificationContainer
                                 unReadNotifications={UnRead}
                                 setUnRead={setUnRead}
-                                areadyReadNotifications={AreadyRead}
+                                alreadyReadNotifications={AreadyRead}
                                 setAreadyRead={setAreadyRead}
                             ></NotificationContainer>
                         </div>

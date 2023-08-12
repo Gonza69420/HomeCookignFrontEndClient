@@ -17,7 +17,7 @@ interface Notification {
 
 interface NotificationContainer {
     unReadNotifications: Notification[];
-    alreadtReadNotifications: Notification[];
+    alreadyReadNotifications: Notification[];
     setUnRead: (r: Notification[]) => any;
     setAlreadyRead: (r: Notification[]) => any;
 }
@@ -41,15 +41,15 @@ export const NotificationContainer = (props: NotificationContainer) => {
     }, [props.unReadNotifications]);
 
     useEffect(() => {
-        if (props.alreadtReadNotifications.length >= 1 && !alreadyReadDateWasTrimmed) {
-            const newAlreadyRead = props.alreadtReadNotifications.map((notification) => {
+        if (props.alreadyReadNotifications.length >= 1 && !alreadyReadDateWasTrimmed) {
+            const newAlreadyRead = props.alreadyReadNotifications.map((notification) => {
                 return { ...notification, date: notification.date.split('T')[0] };
             });
 
             props.setAlreadyRead(newAlreadyRead);
             setAlreadyReadDateWasTrimmed(true);
         }
-    }, [props.alreadtReadNotifications]);
+    }, [props.alreadyReadNotifications]);
 
     const markNotificationAsRead = async () => {
         const config = {
@@ -91,7 +91,7 @@ export const NotificationContainer = (props: NotificationContainer) => {
             {showUnRead ? (
                 <>
                     <>
-                        {props.alreadtReadNotifications.map((notification) => {
+                        {props.alreadyReadNotifications.map((notification) => {
                             return (
                                 <>
                                     <NotificationTab
