@@ -18,12 +18,11 @@ export  const MainPage = () => {
     const [chefData , setchefData] = useState([]);
     const [filteredData ,setfilteredData] = useState([]);
     const [isChefDataEmpty , setisChefDataEmpty] = useState(false);
-    const [chefName , setchefName] = useState('');
-    const [menuName , setmenuName] = useState('');
+
 
     const {first, last , lastPage, refetch} = useSearchChef({
-        chefName : chefName,
-        menuName : menuName,
+        search : searchInput,
+        chef : isDropdownChef(),
         onCompleted: (data) => {
             if (data.length === 0) {
                 setisChefDataEmpty(false);
@@ -37,6 +36,15 @@ export  const MainPage = () => {
             toast.error(e.message)
         },
     })
+
+
+    function  isDropdownChef(){
+        if (dropdown === "Chef"){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
 
     useEffect(() => {
@@ -63,15 +71,7 @@ export  const MainPage = () => {
     }, []);
     
     const searchItems = (e) => {
-        if(dropdown === "Chef"){
-            setSearchInput(e.target.value);
-            setchefName(searchInput);
-            setmenuName('');
-        }else{
-            setSearchInput(e.target.value);
-            setmenuName(searchInput);
-            setchefName('');
-        }
+        setSearchInput(e.target.value);
         refetch();
     }
 
@@ -123,8 +123,7 @@ export  const MainPage = () => {
               
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
-            {isChefDataEmpty&&
-
+            {isChefDataEmpty &&
             <>
               {filteredData.map(chef => {
                 return(

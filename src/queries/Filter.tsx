@@ -2,9 +2,8 @@ import {useState} from "react";
 import axios from "axios";
 
 interface search{
-    chefName : string;
-    menuName : string;
-
+    search : string;
+    chef : boolean;
     onCompleted? : (res) => any;
     onError? : (err) => any;
     updateQuery? : any;
@@ -25,14 +24,12 @@ export const useSearchChef = (search : search) => {
     const [first , setFirst] = useState<boolean>(false);
     const [last , setLast] = useState<boolean>(false);
     const [lastPage , setLastPage] = useState<number>(0);
-    const [menuOrChef , setMenuOrChef] = useState<string>("");
     const checkIfChef = () => {
-        if(search.chefName != ""){
-            setMenuOrChef("menu");
-            return menuOrChef;
+        if(search.chef) {
+            return "chef";
+        } else {
+            return "menu"
         }
-        setMenuOrChef("chef")
-        return menuOrChef;
     }
 
     const fetchData = () => {
@@ -40,9 +37,9 @@ export const useSearchChef = (search : search) => {
             .post(
                 `http://localhost:8080/filter/${checkIfChef()}?page=0`,
                 {
-                    chefName: search.chefName,
-                    menuName : search.menuName,
-                    category : search.menuName,
+                    chefName: search.search,
+                    menuName : search.search,
+                    category : search.search,
                 },
                 {
                     headers: {
@@ -53,7 +50,6 @@ export const useSearchChef = (search : search) => {
             .then((res) => {
                 setLoading(false);
                 search.onCompleted(res.data.content);
-                setData(res.data.content);
                 setData(res.data.content);
                 setFirst(res.data.first);
                 setLast(res.data.last);
