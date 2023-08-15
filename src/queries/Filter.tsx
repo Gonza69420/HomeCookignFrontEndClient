@@ -35,11 +35,9 @@ export const useSearchChef = (search : search) => {
     const fetchData = () => {
         axios
             .post(
-                `http://localhost:8080/filter/${checkIfChef()}?page=0`,
+                `http://localhost:8080/filter/${checkIfChef()}`,
                 {
-                    chefName: search.search,
-                    menuName : search.search,
-                    category : search.search,
+                    search: search.search,
                 },
                 {
                     headers: {

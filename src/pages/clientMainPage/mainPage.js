@@ -119,7 +119,7 @@ export  const MainPage = () => {
                         <Dropdown.Item eventKey="Chef">Chef</Dropdown.Item>
                 </DropdownButton>
               </div>
-              <TextField className="textfieldfill" id="outlined-basic" label="Search..." variant="outlined" onChange={searchItems} value={searchInput}/>
+              <TextField className="textfieldfill" id="outlined-basic" label="Search..." variant="outlined" onChange={(e) => searchItems(e)} value={searchInput}/>
               
             </Stack>
             <Stack direction="horizontal" className='justify-content-start mt-2' gap={3}>
