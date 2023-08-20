@@ -5,12 +5,11 @@ import {
     UseGetUnReadNotifications
 } from '../../queries/UseGetNotification.tsx';
 import { NotificationTab } from './Notification.tsx';
-import Spinner from '../Spinner/Spinner.tsx';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
 interface Notification {
-    text: string;
+    message: string;
     date: string;
     hasBeenSeen: boolean;
 }
@@ -51,43 +50,35 @@ export const NotificationContainer = (props: NotificationContainer) => {
         }
     }, [props.alreadyReadNotifications]);
 
-    const markNotificationAsRead = async () => {
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: 'Bearer ' + sessionStorage.getItem('token')
-            }
-        };
-        await axios.put('http://localhost:8080/notifications', {}, config);
-    };
-
     const showSubmitError = (message) => {
         toast.error(message);
     };
 
+
     return (
         <div>
-                <>
-                    {!hasUnreadNotifications ? (
-                        <>
-                            <NotificationTab text="No hay nuevas notificaciones." date={''} hasBeenSeen={false} />
-                        </>
-                    ) : (
-                        <>
-                            {props.unReadNotifications.map((notification) => {
-                                return (
-                                    <>
-                                        <NotificationTab
-                                            text={notification.text}
-                                            date={notification.date}
-                                            hasBeenSeen={false}
-                                        />
-                                    </>
-                                );
-                            })}
-                        </>
-                    )}
-                </>
+            <>
+                {!hasUnreadNotifications ? (
+                    <>
+                        <NotificationTab text="No hay nuevas notificaciones." date={''} hasBeenSeen={false} />
+                    </>
+                ) : (
+                    <>
+                        {props.unReadNotifications.map((notification) => {
+                            return (
+                                <>
+                                    <NotificationTab
+                                        text={notification.message}
+                                        date={notification.date}
+                                        hasBeenSeen={false}
+                                    />
+                                </>
+                            );
+                        })}
+                    </>
+                )}
+            </>
+
             {showUnRead ? (
                 <>
                     <>
@@ -95,7 +86,7 @@ export const NotificationContainer = (props: NotificationContainer) => {
                             return (
                                 <>
                                     <NotificationTab
-                                        text={notification.text}
+                                        text={notification.message}
                                         date={notification.date}
                                         hasBeenSeen={true}
                                     />

@@ -5,16 +5,17 @@ import {Profileimage} from '../../components/profileimage';
 import {MenuChef} from "../../objects/Menu";
 import {SeeMenus} from "../CreateSolicitude/SeeMenus/SeeMenus.tsx";
 import {MenuAndPrice} from "../CreateSolicitude/AddMenu/AddMenu.tsx";
+import {UsePostPayment} from "../../queries/PaymentQueries";
 
 interface Props{
-ammount : number;
 cardList : string[];
 chefName: string;
 fecha: string;
 chefMenu : MenuAndPrice[];
 setClose : (open : boolean) => void;
 ammountPeople : number;
-
+calendarEventID : number;
+idChef : string;
 open : boolean;
 }
 
@@ -47,6 +48,32 @@ export const PayMentPopUp = (props : Props) => {
 
     const getLast4Digits = (card : string) => {
         return "****" + card.substr(card.length - 4);
+    }
+
+    const calculatePrice = () => {
+        let price = 0;
+        props.chefMenu.map((menu) => {
+            price += menu.menu.price * menu.quantity;
+        })
+        return price;
+    }
+
+    const getMenusId = () => {
+        let menusId : number[] = [];
+        props.chefMenu.map((menu) => {
+            menusId.push(menu.menu.id);
+        })
+        return menusId;
+    }
+
+    const handlePay = () => {
+        UsePostPayment({
+            idClient: sessionStorage.getItem("id"),
+            idChef : props.idChef,
+            calendarEventId : props.calendarEventID,
+            price :  calculatePrice(),
+            menus : getMenusId()
+        }, props.setClose)
     }
 
     return(
@@ -88,10 +115,10 @@ export const PayMentPopUp = (props : Props) => {
                     </div>
 
                     <div className={"cardRowDivPayment"}>
-                        <h4 className={"totalAPagarPayment"}>Total a pagar: {props.ammount}$</h4>
+                        <h4 className={"totalAPagarPayment"}>Total a pagar: {calculatePrice()}$</h4>
 
                         <div className={"ButtonsPayment"}>
-                            <Button variant="contained" color="success" className={"successPayment"}>
+                            <Button variant="contained" color="success" className={"successPayment"} onClick={handlePay}>
                                 Pagar
                             </Button>
                             <Button variant="contained" color="error" className={"errorPayment"} onClick={handleClose}>

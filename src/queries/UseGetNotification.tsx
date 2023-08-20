@@ -18,7 +18,7 @@ export const UseGetUnReadNotifications = (options: IOptions) => {
             }
         };
         axios
-            .get('http://localhost:8080/notifications/unread', config)
+            .get('http://localhost:8080/notifications/get/unread/' + sessionStorage.getItem("mail"), config)
             .then((res) => {
                 setLoading(false);
                 setData(res.data);
@@ -48,7 +48,7 @@ export const UseGetAlreadyReadNotifications = (options: IOptions) => {
             }
         };
         axios
-            .get('http://localhost:8080/notifications/alreadyread', config)
+            .get('http://localhost:8080/notifications/get/seen/' + sessionStorage.getItem("mail"), config)
             .then((res) => {
                 setLoading(false);
                 setData(res.data);
@@ -63,7 +63,6 @@ export const UseGetAlreadyReadNotifications = (options: IOptions) => {
     return {
         loading: loading,
         data: data,
-        error: error
     };
 };
 
@@ -96,3 +95,23 @@ export const UseGetHasUnreadNotifications = () => {
         error: error
     };
 };
+
+
+export const UseMarkNotificationAsRead = (options: IOptions) => {
+
+    axios.put('http://localhost:8080/notifications/mark/' + sessionStorage.getItem("mail"), {}, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: 'Bearer ' + sessionStorage.getItem('token')
+        }
+    })
+        .then((res) => {
+                options.onCompleted(res.data);
+            }
+        )
+        .catch((e) => {
+                options.onError(e);
+            }
+        );
+}
+

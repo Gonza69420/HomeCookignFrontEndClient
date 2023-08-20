@@ -105,6 +105,7 @@ export const ProfileChef = () => {
                         name: menu.name,
                         price: menu.price,
                         imageURL: menu.imageurl,
+                        id: menu.id
                     }
                 )
             })
@@ -173,7 +174,7 @@ export const ProfileChef = () => {
             </div>
             <br/>
             {createSolicitude &&
-                <CreateSolicitude setClose={setCreateSolicitude} open={createSolicitude} chefName={chefData.firstName + " "+ chefData.lastName} menus={createMenuInterface(dataMenu)} imageURL={chefData.imageURL} tarjetas={["3243232", "13232112332"]} chefMail={chefData.mail}/>
+                <CreateSolicitude idChef={chefData.id} setClose={setCreateSolicitude} open={createSolicitude} chefName={chefData.firstName + " "+ chefData.lastName} menus={createMenuInterface(dataMenu)} imageURL={chefData.imageURL} tarjetas={["3243232", "13232112332"]} chefMail={chefData.mail}/>
             }
         </div>
         )

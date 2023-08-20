@@ -2,6 +2,7 @@ import {Box, Button, Modal} from "@mui/material";
 import {useState} from "react";
 import "./AddMenu.css"
 export interface MenuInterface{
+    id : number;
     name : string;
     price : number;
     imageURL : string;

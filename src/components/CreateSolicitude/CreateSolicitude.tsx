@@ -21,12 +21,15 @@ interface Props{
     setClose : (open : boolean) => void;
     tarjetas : string[];
     chefMail : string;
+    idChef : string;
 }
 
 interface dateAndString{
     date : Date;
     string : String;
+    id : String;
 }
+
 export const CreateSolicitude = (props : Props) => {
     const [date, setDate] = useState<string>("");
     const [hoursSelect , setHoursSelect] = useState<string[]>([]);
@@ -59,13 +62,6 @@ export const CreateSolicitude = (props : Props) => {
             }
         }
         )
-    }
-
-    const handleNumberChange = (event : any) => {
-        if (event.target.value >= 0) {
-            const number = parseInt(event.target.value);
-            setNumber(number);
-        }
     }
 
     const handleClose = () => {
@@ -114,7 +110,8 @@ export const CreateSolicitude = (props : Props) => {
             dates.push(
                 {
                     date : eventCalendar.eventDate.date,
-                    string: getYearMonthDay(eventCalendar.eventDate.date)
+                    string: getYearMonthDay(eventCalendar.eventDate.date),
+                    id : eventCalendar.id
                 }
             );
         })
@@ -129,7 +126,7 @@ export const CreateSolicitude = (props : Props) => {
     const createMenuAndPrice = () : MenuAndPrice[] => {
         let menuAndPrice : MenuAndPrice[] = [];
         for (let i = 0; i < props.menus.length; i++) {
-            menuAndPrice.push({menu : props.menus[i], quantity : 0})
+            menuAndPrice.push({menu : props.menus[i], quantity : 0, id : props.menus[i].id})
         }
         return menuAndPrice;
     }
@@ -150,6 +147,26 @@ export const CreateSolicitude = (props : Props) => {
         }
 
         setPayment(true);
+    }
+
+
+    const getEventCalendarID = (date : string , hour : string) : string => {
+        events.map((event) => {
+            if (getYearMonthDay(event.eventDate.date) == date){
+                let hours = [];
+                GetHoursFromDate(props.chefMail, getYearMonthDay(event.eventDate.date), {
+                    onCompleted: (data) => {
+                        hours = data;
+                    },
+                    onError: (error) => {
+                        toast.error(error.message)
+                    }
+                })
+                if (hours.includes(hour)){
+                    return event.id;
+                }
+            }})
+        return "";
     }
 
 
@@ -203,7 +220,7 @@ export const CreateSolicitude = (props : Props) => {
 
                 </Box>
                 {payment &&
-                    <PayMentPopUp ammountPeople={number} setClose={setPayment} ammount={getTotalPrice()} open={payment} cardList={props.tarjetas} chefMenu={menuAndQuantity} chefName={props.chefName} fecha={date + " " + hour}></PayMentPopUp>
+                    <PayMentPopUp idChef={props.idChef} calendarEventID={getEventCalendarID(date , hour)} setClose={setPayment} ammount={getTotalPrice()} open={payment} cardList={props.tarjetas} chefMenu={menuAndQuantity} chefName={props.chefName} fecha={date + " " + hour}></PayMentPopUp>
                 }
                 </div>
             </Modal>

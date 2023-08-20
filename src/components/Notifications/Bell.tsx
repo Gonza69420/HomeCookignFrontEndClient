@@ -3,8 +3,10 @@ import { AiFillBell } from 'react-icons/ai';
 import { NotificationContainer } from './NotificationContainer.tsx';
 import './Bell.css';
 import {
-    UseGetUnReadNotifications
-} from '../../queries/UseGetNotification.tsx';
+    UseGetAlreadyReadNotifications,
+    UseGetUnReadNotifications,
+    UseMarkNotificationAsRead
+} from "../../queries/UseGetNotification.tsx";
 import toast from 'react-hot-toast';
 var stompClient = null;
 
@@ -12,11 +14,20 @@ export const Bell = () => {
     const [open, setOpen] = useState<boolean>(false);
     const [hasNotification, setHasNotification] = useState<boolean>(false);
     const [UnRead, setUnRead] = useState<Notification[]>([] as Notification[]);
-    const [AreadyRead, setAreadyRead] = useState<Notification[]>([] as Notification[]);
+    const [AlreadyRead, setAlreadyRead] = useState<Notification[]>([] as Notification[]);
+
+    const showSubmitError = (message) => {
+        toast.error(message);
+    };
+
 
     useEffect(() => {
-        connect();
-    }, []);
+        if (UnRead.length == 0){
+            setHasNotification(false);
+        } else{
+            setHasNotification(true);
+        }
+    } , [UnRead]);
 
     const connect = () => {
         const Stomp = require("stompjs");
@@ -26,17 +37,39 @@ export const Bell = () => {
         stompClient.connect({}, onConnected, onError);
     };
 
+    const { loading: unReadLoading, data: unReadData } = UseGetUnReadNotifications({
+        onCompleted: (data) => {
+            console.log(data)
+            setUnRead([...UnRead, ...data]);
+        },
+        onError: (error) => {
+            console.error('Error fetching unread notifications:', error);
+        }
+    });
+
+    const { loading: alreadyReadLoading, data: alreadyReadData } = UseGetAlreadyReadNotifications({
+        onCompleted: (data) => {
+            console.log(data)
+            setAlreadyRead([...AlreadyRead, ...data]);
+        },
+        onError: (error) => {
+            console.error('Error fetching unread notifications:', error);
+        }
+    });
+
+
+
     const onConnected = () => {
         console.log("connected");
         stompClient.subscribe(
-            "/get/unread/" + sessionStorage.getItem("mail") ,
+            "/user/" + sessionStorage.getItem("id") + "/queue/events",
             onNotificationReceived
         );
-        stompClient.subscribe(
-            "/get/seen/" + sessionStorage.getItem("mail") ,
-            AreadyReadNotification
-        );
     };
+
+    useEffect(() => {
+        connect();
+    }, []);
 
     const onError = (err) => {
         console.log(err);
@@ -44,7 +77,7 @@ export const Bell = () => {
 
     const AreadyReadNotification = (payload) => {
         const notification = JSON.parse(payload.body);
-        setAreadyRead([...AreadyRead, notification]);
+        setAlreadyRead([...AlreadyRead, notification]);
     }
 
     const onNotificationReceived = (payload) => {
@@ -53,17 +86,26 @@ export const Bell = () => {
     }
 
     const openBell = () => {
+        if (open) {
+            setUnRead([]);
+            setAlreadyRead([...UnRead , ...AlreadyRead]);
+        }
         setOpen(!open)
-        stompClient.send("/mark/" + sessionStorage.getItem("mail") , {})
-    }
+        UseMarkNotificationAsRead({
+            onCompleted: (data) => {
 
-    const showSubmitError = (message) => {
-        toast.error(message);
-    };
+            } ,
+            onError: (error) => {
+
+            }
+        })
+    }
 
     return (
         <div className={'centerBell'}>
-            <div className="bell" onClick={() => openBell()}>
+            <div className="bell" onClick={() =>
+                openBell()
+            }>
                 {hasNotification ? <div className={'redCircle'}></div> : <></>}
                 <AiFillBell
                     style={{
@@ -84,8 +126,8 @@ export const Bell = () => {
                             <NotificationContainer
                                 unReadNotifications={UnRead}
                                 setUnRead={setUnRead}
-                                alreadyReadNotifications={AreadyRead}
-                                setAreadyRead={setAreadyRead}
+                                alreadyReadNotifications={AlreadyRead}
+                                setAlreadyRead={setAlreadyRead}
                             ></NotificationContainer>
                         </div>
                     </div>

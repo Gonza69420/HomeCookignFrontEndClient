@@ -7,19 +7,23 @@ interface IOptions {
 }
 
 interface PaymentDTO {
+    idClient : string,
+    idChef : string,
+    calendarEventId : number,
+    price: number,
+    menus : number[]
 }
 
-interface SolicitudeDTO {
-}
 
-const UsePostPayment = (options: IOptions, paymentData : PaymentDTO, solicitudeDTO : SolicitudeDTO) => {
+
+export const UsePostPayment = ( paymentData : PaymentDTO, setOpen : (r) => any) => {
     const config = {
         headers: {
             "Content-Type": "application/json"
         }
     }
 
-    return axios.post('http://localhost:8080/creditCard/addCard/' + sessionStorage.getItem("mail"), card, config).then(
+    return axios.post('http://localhost:8080/creditCard/addCard/' + sessionStorage.getItem("mail"), paymentData, config).then(
         (res) => {
             toast.success(res.data);
             setOpen(false);
@@ -31,4 +35,3 @@ const UsePostPayment = (options: IOptions, paymentData : PaymentDTO, solicitudeD
     )
 }
 
-}
