@@ -8,7 +8,7 @@ import { Stack, Dropdown } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import "./mainPage.css"
-import {useSearchChef} from "../../queries/Filter.tsx";
+import {getAllChefs, useSearchChef} from "../../queries/Filter.tsx";
 import toast from "react-hot-toast";
 
 export  const MainPage = () => {
@@ -24,6 +24,7 @@ export  const MainPage = () => {
         search : searchInput,
         chef : isDropdownChef(),
         onCompleted: (data) => {
+            console.log(data)
             if (data.length === 0) {
                 setisChefDataEmpty(false);
             }else{
@@ -53,6 +54,14 @@ export  const MainPage = () => {
         }
     }, [])
 
+    /*useEffect(() => {
+        if (searchInput === '') {
+            setfilteredData(chefData);
+        }
+    } , [searchInput])
+
+     */
+
     useEffect(() => {
       fetch(`http://localhost:8080/api/auth/getClient/${sessionStorage.getItem('mail')}`, {
         method: 'GET',
@@ -69,9 +78,29 @@ export  const MainPage = () => {
     })
 
     }, []);
+
+
+    const { data, loading, error, getAll } = getAllChefs({
+        onCompleted: (data) => {
+            console.log(data)
+            setchefData(data)
+            setfilteredData(data)
+        } ,
+        onError: (e) => {
+            toast.error(e.message)
+        }
+    } )
+
+    useEffect(() => {
+        getAll()
+    } , [])
     
     const searchItems = (e) => {
         setSearchInput(e.target.value);
+        if (e.target.value === '') {
+            getAll();
+            return;
+        }
         refetch();
     }
 

@@ -12,24 +12,34 @@ setOpen : (open : boolean) => void;
 }
 export const AddCard = (props : Props) => {
 const [open , setOpen] = useState(props.open);
-
-const [cardNumber , setCardNumber] = useState<string>("");
+const [numberCard , setNumberCard] = useState<string>("");
+const [displaycardNumber , setDisplaycardNumber] = useState<string>("");
 const [month , setMonth] = useState<string>("");
 const [year , setYear] = useState<string>("");
 const [cvv , setCvv] = useState<string>("");
 
-const handleCardNumberChange = (event : any) => {
+const handleDisplayCardNumberChange = (event : any) => {
     if(event.target.value as Number || event.target.value == ""){
         if((event.target.value.length +1) % 5 == 0 && event.target.value.length < 19){
             event.target.value += "-";
         }
         if (event.target.value.length <= 19) {
-            setCardNumber(event.target.value);
+            setDisplaycardNumber(event.target.value);
         }
         }else if (event.target.value.length.equal('\b')){
-            setCardNumber(event.target.value);
+            setDisplaycardNumber(event.target.value);
         }
     }
+
+    const handleCardNumberChange = (event : any) => {
+        if(event.target.value as Number || event.target.value == ""){
+            if (event.target.value.length <= 19) {
+                setNumberCard(event.target.value);
+            }
+        }else if (event.target.value.length.equal('\b')){
+            setNumberCard(event.target.value);
+        }
+}
 
 const handleMonthChange = (event : any) => {
     if(event.target.value <= 12 && event.target.value >= 1 || event.target.value == ""){
@@ -51,14 +61,14 @@ const handleCVVChange = (event : any) => {
 
 
 const handleSubmit = () => {
-    if(cardNumber == "" || month == "" || year == "" || cvv == ""){
+    if(displaycardNumber == "" || month == "" || year == "" || cvv == ""){
         toast.error("Por favor llene todos los campos");
     }
-    if (checkCVVIsLength(cvv) && checkIfCardIsLength(cardNumber) && checkIfYearIsLength(year)){
+    if (checkCVVIsLength(cvv) && checkIfCardIsLength(displaycardNumber) && checkIfYearIsLength(year)){
         return;
     }
     const card : Card = {
-        cardNumber : cardNumber,
+        cardNumber : numberCard,
         expirationMonth : parseInt(month),
         expirationYear : parseInt(year),
         CVV : parseInt(cvv)
@@ -76,7 +86,11 @@ const handleSubmit = () => {
                 </div>
 
                 <div className={"cardInfo"}>
-                    <TextField variant={"outlined"}  onChange={(e) => handleCardNumberChange(e)} value={cardNumber} label={"Card"}/>
+                    <TextField variant={"outlined"}  onChange={(e) => {
+                        handleCardNumberChange(e)
+                        handleDisplayCardNumberChange(e)
+                    }
+                    } value={displaycardNumber} label={"Card"}/>
 
                     <TextField variant={"outlined"} type={"number"} onChange={(e) => handleMonthChange(e)} value={month} label={"Mes de Vencimiento"}/>
 

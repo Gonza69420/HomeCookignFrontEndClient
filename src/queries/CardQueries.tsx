@@ -8,14 +8,11 @@ interface IOptions {
     onCompleted?: (r) => any;
     onError?: (r) => any;
 }
-export const addCard = (card : Card, setOpen : (r) => any) => {
-const config = {
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }
+export  const addCard = async (card: Card, setOpen: (r) => any) => {
 
-    return axios.post('http://localhost:8080/creditCard/addCard/' + sessionStorage.getItem("mail"), card, config).then(
+    axios.post('http://localhost:8080/payment/addPaymentMethod', {
+        customerId: sessionStorage.getItem("mail")
+    }).then(
         (res) => {
             toast.success(res.data);
             setOpen(false);
@@ -25,6 +22,7 @@ const config = {
             toast.error(e.message);
         }
     )
+
 }
 
 export const GetCardByMail = (options: IOptions) => {

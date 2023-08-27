@@ -3,6 +3,7 @@ import { Form, Button, Container } from "react-bootstrap";
 import "./Login.css";
 import toast from "react-hot-toast";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 export const Login = () => {
     const [data, setData] = useState({
@@ -12,7 +13,7 @@ export const Login = () => {
 
     useEffect(() => {
         if(sessionStorage.getItem('token') !== null){
-            window.location.href = '/mainPage';
+           // window.location.href = '/mainPage';
         }
     }, [])
 
@@ -20,31 +21,28 @@ export const Login = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-            (fetch("http://localhost:8080/api/auth/signin", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                mail: data.username,
-                password: data.password,
-                role: "ROLE_CLIENT"
-            })
-                })
-            .then(res =>{
-                if (res.status === 401 || res.status === 400 || data.username === '' || data.password === '') {
-                    toast.error( 'Invalid Credentials');
-                } 
-                else {
-                    toast.success( 'Login Successful');
-                    sessionStorage.setItem("mail" , data.username);
-                    sessionStorage.setItem('token', res.accessToken);
-                    sessionStorage.setItem('id', data.id);
-                    navigate('/mainPage');
+        axios.post("http://localhost:8080/api/auth/signin", {
+            mail: data.username,
+            password: data.password,
+            role: "ROLE_CLIENT"
 
-                }
-                }
-            )).catch(err => console.log(err));
+        }).then(res => {
+            if (res.status === 401 || res.status === 400 || data.username === '' || data.password === '') {
+                toast.error( 'Invalid Credentials');
+            }
+            else {
+                toast.success( 'Login Successful');
+                sessionStorage.setItem("mail" , data.username);
+                sessionStorage.setItem('token', res.data.accessToken);
+                sessionStorage.setItem('id', res.data.id);
+                navigate('/mainPage');
+
+            }
+        }).catch(err => {
+            console.log(err)
+            toast(err.message)
+        })
+
             
        
     }

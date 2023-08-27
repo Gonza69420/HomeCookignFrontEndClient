@@ -47,8 +47,8 @@ export const useSearchChef = (search : search) => {
             )
             .then((res) => {
                 setLoading(false);
-                search.onCompleted(res.data.content);
-                setData(res.data.content);
+                search.onCompleted(res.data);
+                setData(res.data);
                 setFirst(res.data.first);
                 setLast(res.data.last);
                 setLastPage(res.data.totalPages - 1);
@@ -65,6 +65,35 @@ export const useSearchChef = (search : search) => {
         last: last,
         lastPage: lastPage,
         refetch: fetchData
+    };
+}
+
+export const getAllChefs = ( onCompleted? : (res) => any, onError? : (err) => any, updateQuery? : any ) => {
+    const [loading , setLoading] = useState<boolean>(true);
+    const [data, setData] = useState<Chef[]>([]);
+
+
+
+
+    const fetchData = () => {
+        axios.get("http://localhost:8080/getAllChefs", {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then((res) => {
+            setLoading(false);
+            onCompleted(res.data);
+            setData(res.data);
+        } ).catch((e) => {
+            console.log(e);
+        }
+        )
+    }
+
+    return {
+        loading: loading,
+        data: data,
+        getAll: fetchData
     };
 }
 

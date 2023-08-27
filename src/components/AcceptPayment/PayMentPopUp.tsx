@@ -1,11 +1,14 @@
-import {Fragment, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {Box, Button, FormControl, InputLabel, MenuItem, Modal, Select} from "@mui/material";
 import "./PayMentPopUp.css"
 import {Profileimage} from '../../components/profileimage';
 import {MenuChef} from "../../objects/Menu";
 import {SeeMenus} from "../CreateSolicitude/SeeMenus/SeeMenus.tsx";
 import {MenuAndPrice} from "../CreateSolicitude/AddMenu/AddMenu.tsx";
-import {UsePostPayment} from "../../queries/PaymentQueries";
+import {UsePostPayment} from "../../queries/PaymentQueries.tsx";
+import {GetCardByMail} from "../../queries/CardQueries.tsx";
+import {Card} from "../../objects/Card";
+import {getIdFromDateAndHours} from "../../queries/DateQueries.tsx";
 
 interface Props{
 cardList : string[];
@@ -17,6 +20,9 @@ ammountPeople : number;
 calendarEventID : number;
 idChef : string;
 open : boolean;
+chefMail : string;
+date : string;
+hour : string;
 }
 
 const style = {
@@ -33,9 +39,24 @@ const style = {
 
 export const PayMentPopUp = (props : Props) => {
     const [open , setOpen] = useState(props.open);
-    const [cards , setCards] = useState(props.cardList);
+    const [cardsNum , setCardsNum] = useState<String[]>([]);
+    const [cards , setCards] = useState<Card[]>([]);
     const [selectedCard , setSelectedCard] = useState("")
     const [seeMenus , setSeeMenus] = useState<boolean>(false);
+
+    const {loading , data, error} = GetCardByMail({
+        onCompleted: (data) => {
+            setCards(data);
+            getCardsNum()
+        }
+    })
+
+    const getCardsNum = () => {
+        cards.map((card) => {
+            cardsNum.push(card.cardNumber);
+        })
+    }
+
 
     const handleClose = () => {
         setOpen(false);
@@ -51,7 +72,7 @@ export const PayMentPopUp = (props : Props) => {
     }
 
     const calculatePrice = () => {
-        let price = 0;
+        let price = 0.0;
         props.chefMenu.map((menu) => {
             price += menu.menu.price * menu.quantity;
         })
@@ -66,14 +87,28 @@ export const PayMentPopUp = (props : Props) => {
         return menusId;
     }
 
+    const [calendarEventId , setCalendarEventId] = useState<number>(0);
+
+    useEffect(() => {
+        getCalendarEventId(); // Llamar a getCalendarEventId cuando el componente se monta
+    }, []); // El segundo argumento vacío [] asegura que se ejecute solo cuando el componente se monta
+
+    const getCalendarEventId = () => {
+        getIdFromDateAndHours(props.chefMail, props.date, props.hour, {
+            onCompleted: (data) => {
+                setCalendarEventId(data);
+            }
+        });
+    }
+
     const handlePay = () => {
         UsePostPayment({
-            idClient: sessionStorage.getItem("id"),
+            idClient: parseInt(sessionStorage.getItem('id')),
             idChef : props.idChef,
-            calendarEventId : props.calendarEventID,
+            calendarEventId : calendarEventId,
             price :  calculatePrice(),
             menus : getMenusId()
-        }, props.setClose)
+        }, props.setClose);
     }
 
     return(
@@ -107,7 +142,7 @@ export const PayMentPopUp = (props : Props) => {
                                 onChange={handleSelectCard}
                                 className={"selectCardPayment"}
                             >
-                                {cards.map((card, index) => (
+                                {cardsNum.map((card, index) => (
                                     <MenuItem value={card} key={index}> {getLast4Digits(card)}  </MenuItem>
                                 ))}
                             </Select>

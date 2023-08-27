@@ -1,4 +1,4 @@
-import axios from "axios/index";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 interface IOptions {
@@ -23,7 +23,7 @@ export const UsePostPayment = ( paymentData : PaymentDTO, setOpen : (r) => any) 
         }
     }
 
-    return axios.post('http://localhost:8080/creditCard/addCard/' + sessionStorage.getItem("mail"), paymentData, config).then(
+    return axios.post('http://localhost:8080/payment/chargeCustomer', paymentData, config).then(
         (res) => {
             toast.success(res.data);
             setOpen(false);

@@ -2,7 +2,7 @@ import {Box, Button, Menu, MenuItem, Modal, Select, TextField} from "@mui/materi
 import {Profileimage} from '../../components/profileimage';
 // @ts-ignore
 import {DatePickerClient} from "../TimePicker/DatePickerClient.tsx";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import { MenuChef} from "../../objects/Menu";
 import {DateSolicitude} from "../../objects/Date";
 import "./CreateSolicitude.css";
@@ -10,7 +10,7 @@ import * as dayjs from "dayjs";
 import toast from "react-hot-toast";
 import {PayMentPopUp} from "../AcceptPayment/PayMentPopUp.tsx";
 import {EventCalendar} from "../../objects/EventCalendar.tsx";
-import {GetAvailableDates, GetHoursFromDate} from "../../queries/DateQueries.tsx";
+import {GetAvailableDates, GetHoursFromDate, getIdFromDateAndHours} from "../../queries/DateQueries.tsx";
 import {AddMenu, MenuAndPrice, MenuInterface} from "./AddMenu/AddMenu.tsx";
 
 interface Props{
@@ -19,7 +19,6 @@ interface Props{
     imageURL : string;
     menus : MenuInterface[];
     setClose : (open : boolean) => void;
-    tarjetas : string[];
     chefMail : string;
     idChef : string;
 }
@@ -38,6 +37,7 @@ export const CreateSolicitude = (props : Props) => {
     const [number, setNumber] = useState<number>(0);
     const [payment , setPayment] = useState<boolean>(false);
     const[open , setOpen] = useState<boolean>(false);
+    const [eventCalendarId , setEventCalendarId] = useState<string>("");
 
     const [events, setEvents] = useState<EventCalendar[]>([]);
 
@@ -54,16 +54,6 @@ export const CreateSolicitude = (props : Props) => {
     const handleHourChange = (event : any) => {
         setHour(event.target.value);
     }
-
-    const handleMenuChange = (event : any) => {
-        props.menus.map((menu) => {
-            if(menu.name == event.target.value){
-                setMenu(menu);
-            }
-        }
-        )
-    }
-
     const handleClose = () => {
         props.setClose(false);
     }
@@ -140,7 +130,6 @@ export const CreateSolicitude = (props : Props) => {
     }
 
     const proceedToPayment = () => {
-        console.log(price)
         if (date == undefined || hour == "" || price == 0){
             toast.error("Por favor llenar todos los campos");
             return;
@@ -148,27 +137,6 @@ export const CreateSolicitude = (props : Props) => {
 
         setPayment(true);
     }
-
-
-    const getEventCalendarID = (date : string , hour : string) : string => {
-        events.map((event) => {
-            if (getYearMonthDay(event.eventDate.date) == date){
-                let hours = [];
-                GetHoursFromDate(props.chefMail, getYearMonthDay(event.eventDate.date), {
-                    onCompleted: (data) => {
-                        hours = data;
-                    },
-                    onError: (error) => {
-                        toast.error(error.message)
-                    }
-                })
-                if (hours.includes(hour)){
-                    return event.id;
-                }
-            }})
-        return "";
-    }
-
 
     return(
         <>
@@ -220,7 +188,7 @@ export const CreateSolicitude = (props : Props) => {
 
                 </Box>
                 {payment &&
-                    <PayMentPopUp idChef={props.idChef} calendarEventID={getEventCalendarID(date , hour)} setClose={setPayment} ammount={getTotalPrice()} open={payment} cardList={props.tarjetas} chefMenu={menuAndQuantity} chefName={props.chefName} fecha={date + " " + hour}></PayMentPopUp>
+                    <PayMentPopUp idChef={props.idChef} setClose={setPayment} ammount={getTotalPrice()} open={payment} chefMenu={menuAndQuantity} chefName={props.chefName} fecha={date + " " + hour} chefMail={props.chefMail} date={date} hour={hour}></PayMentPopUp>
                 }
                 </div>
             </Modal>

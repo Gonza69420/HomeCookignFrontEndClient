@@ -73,3 +73,19 @@ export const GetHoursFromDate = (chefMail : string , date : string, options : IO
     } );
 
 }
+
+export const getIdFromDateAndHours = (chefMail : string , date : string, hour : string, option : IOptions): void => {
+    const config = {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    axios.post('http://localhost:8080/calendar/getDateIdFromDayAndHour/' + chefMail, {
+        date: date,
+        hourRange: hour
+    }, config).then((res) => {
+        option.onCompleted(res.data);
+    }).catch((e) => {
+        toast.error(e.message);
+    });
+}
