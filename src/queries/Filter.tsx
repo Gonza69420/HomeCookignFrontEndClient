@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import axios from "axios";
 
 interface search{
@@ -68,33 +68,29 @@ export const useSearchChef = (search : search) => {
     };
 }
 
-export const getAllChefs = ( onCompleted? : (res) => any, onError? : (err) => any, updateQuery? : any ) => {
-    const [loading , setLoading] = useState<boolean>(true);
-    const [data, setData] = useState<Chef[]>([]);
-
-
-
+export const useAllChefs = () => {
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
 
     const fetchData = () => {
-        axios.get("http://localhost:8080/getAllChefs", {
+        axios.get("http://localhost:8080/api/auth/getAllChefs", {
             headers: {
                 'Content-Type': 'application/json',
             }
         }).then((res) => {
             setLoading(false);
-            onCompleted(res.data);
             setData(res.data);
-        } ).catch((e) => {
-            console.log(e);
-        }
-        )
-    }
-
-    return {
-        loading: loading,
-        data: data,
-        getAll: fetchData
+        }).catch((e) => {
+            setLoading(false);
+            setError(e);
+        });
     };
-}
 
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    return { loading, data, error };
+};
 

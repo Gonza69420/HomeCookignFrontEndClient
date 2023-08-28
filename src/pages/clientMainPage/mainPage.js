@@ -8,7 +8,7 @@ import { Stack, Dropdown } from 'react-bootstrap';
 import TextField from '@mui/material/TextField';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import "./mainPage.css"
-import {getAllChefs, useSearchChef} from "../../queries/Filter.tsx";
+import {getAllChefs, useAllChefs, useSearchChef} from "../../queries/Filter.tsx";
 import toast from "react-hot-toast";
 
 export  const MainPage = () => {
@@ -80,25 +80,17 @@ export  const MainPage = () => {
     }, []);
 
 
-    const { data, loading, error, getAll } = getAllChefs({
-        onCompleted: (data) => {
-            console.log(data)
-            setchefData(data)
-            setfilteredData(data)
-        } ,
-        onError: (e) => {
-            toast.error(e.message)
-        }
-    } )
+    const { data, loading, error } = useAllChefs()
 
     useEffect(() => {
-        getAll()
-    } , [])
+        console.log(data)
+        setfilteredData(data)
+    } , [data])
     
     const searchItems = (e) => {
         setSearchInput(e.target.value);
         if (e.target.value === '') {
-            getAll();
+            setfilteredData(data)
             return;
         }
         refetch();
