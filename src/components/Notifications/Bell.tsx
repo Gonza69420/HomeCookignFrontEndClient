@@ -82,7 +82,16 @@ export const Bell = () => {
 
     const onNotificationReceived = (payload) => {
         const notification = JSON.parse(payload.body);
-        setUnRead([...UnRead, notification]);
+
+        // Convierte el campo date de milisegundos a un objeto Date
+        const dateInMillis = notification.date;
+        const date = new Date(dateInMillis);
+
+        // Formatea la fecha en el formato ISO 8601
+        const isoDate = date.toISOString();
+
+        // Crea una copia del estado UnRead y agrega la notificación formateada
+        setUnRead([...UnRead, { ...notification, date: isoDate }]);
     }
 
     const openBell = () => {
