@@ -100,11 +100,11 @@ export const Chat = (props) => {
         const notification = JSON.parse(msg.body);
         if (activeContact.id === notification.senderId) {
             findChatMessage(notification.id).then((msgs) => {
-                setMessages(msgs)
+                const updatedMessages = [...messages, msgs];
+                setMessages(updatedMessages);
             });
-        } else {
-            message.info("Received a new message from " + notification.senderName);
         }
+
         loadContacts();
     };
 
@@ -229,31 +229,31 @@ export const Chat = (props) => {
                     </ul>
                 </ScrollToBottom>
                 {activeContact.id !== -1 &&
-                <div class="message-input">
-                    <div class="wrap">
-                        <input
-                            name="user_input"
-                            size="large"
-                            placeholder="Write your message..."
-                            value={text}
-                            onChange={(event) => setText(event.target.value)}
-                            onKeyPress={(event) => {
-                                if (event.key === "Enter") {
+                    <div class="message-input">
+                        <div class="wrap">
+                            <input
+                                name="user_input"
+                                size="large"
+                                placeholder="Write your message..."
+                                value={text}
+                                onChange={(event) => setText(event.target.value)}
+                                onKeyPress={(event) => {
+                                    if (event.key === "Enter") {
+                                        sendMessage(text);
+                                        setText("");
+                                    }
+                                }}
+                            />
+
+                            <Button
+                                icon={<i class="fa fa-paper-plane" aria-hidden="true"></i>}
+                                onClick={() => {
                                     sendMessage(text);
                                     setText("");
-                                }
-                            }}
-                        />
-
-                        <Button
-                            icon={<i class="fa fa-paper-plane" aria-hidden="true"></i>}
-                            onClick={() => {
-                                sendMessage(text);
-                                setText("");
-                            }}
-                        />
+                                }}
+                            />
+                        </div>
                     </div>
-                </div>
                 }
             </div>
         </div>

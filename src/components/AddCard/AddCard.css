@@ -6,11 +6,10 @@
     left: 50%;
     border: 2px solid #a6a6a6;
     border-radius: 10px;
-    min-width: 25%;
+    min-width: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 10px 10px 10px 1px rgba(66, 66, 66, 0.75);
     padding: 20px;
-    min-height: 420px;
 }
 
 .tittleAddCard{
@@ -29,4 +28,5 @@
     background-color: #329827 !important;
     border-radius: 10px !important;
     margin-bottom: 10px !important;
+    margin-top: 5% !important;
 }

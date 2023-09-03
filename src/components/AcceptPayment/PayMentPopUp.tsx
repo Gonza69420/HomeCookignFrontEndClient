@@ -9,6 +9,7 @@ import {UsePostPayment} from "../../queries/PaymentQueries.tsx";
 import {GetCardByMail} from "../../queries/CardQueries.tsx";
 import {Card} from "../../objects/Card";
 import {getIdFromDateAndHours} from "../../queries/DateQueries.tsx";
+import toast from "react-hot-toast";
 
 interface Props{
 cardList : string[];
@@ -40,35 +41,25 @@ const style = {
 export const PayMentPopUp = (props : Props) => {
     const [open , setOpen] = useState(props.open);
     const [cardsNum , setCardsNum] = useState<String[]>([]);
-    const [cards , setCards] = useState<Card[]>([]);
+    const [cards , setCards] = useState<String[]>([]);
     const [selectedCard , setSelectedCard] = useState("")
     const [seeMenus , setSeeMenus] = useState<boolean>(false);
 
     const {loading , data, error} = GetCardByMail({
         onCompleted: (data) => {
             setCards(data);
-            getCardsNum()
         }
     })
-
-    const getCardsNum = () => {
-        cards.map((card) => {
-            cardsNum.push(card.cardNumber);
-        })
-    }
 
 
     const handleClose = () => {
         setOpen(false);
         props.setClose(false);
     }
-
+    const [selectedCardSelected , setSelectedCardSelected] = useState<String>("");
     const handleSelectCard = (event : any) => {
         setSelectedCard(event.target.value);
-    }
-
-    const getLast4Digits = (card : string) => {
-        return "****" + card.substr(card.length - 4);
+        setSelectedCardSelected(cards[event.target.value]);
     }
 
     const calculatePrice = () => {
@@ -102,12 +93,17 @@ export const PayMentPopUp = (props : Props) => {
     }
 
     const handlePay = () => {
+        if (selectedCardSelected == ""){
+            toast.error("Selecciona una tarjeta");
+            return;
+        }
         UsePostPayment({
             idClient: parseInt(sessionStorage.getItem('id')),
             idChef : props.idChef,
             calendarEventId : calendarEventId,
             price :  calculatePrice(),
-            menus : getMenusId()
+            menus : getMenusId(),
+            last4: selectedCardSelected
         }, props.setClose);
     }
 
@@ -142,8 +138,8 @@ export const PayMentPopUp = (props : Props) => {
                                 onChange={handleSelectCard}
                                 className={"selectCardPayment"}
                             >
-                                {cardsNum.map((card, index) => (
-                                    <MenuItem value={card} key={index}> {getLast4Digits(card)}  </MenuItem>
+                                {cards.map((card, index) => (
+                                    <MenuItem value={index}> {card}  </MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
