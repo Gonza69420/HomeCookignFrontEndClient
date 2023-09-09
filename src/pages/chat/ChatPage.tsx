@@ -1,8 +1,20 @@
 import Navbar from "../../components/Navbar";
 import {Chat} from "./Chat";
 import "./ChatPage.css";
-export const ChatPage = () => {
+import {useState} from "react";
 
+
+interface Contact{
+    name : string;
+    id : number;
+    profilePicture : string;
+}
+export const ChatPage = () => {
+const [activeContact, setActiveContact] = useState<Contact>({
+    name : "",
+    id : -1,
+    profilePicture : ""
+});
 
 
 
