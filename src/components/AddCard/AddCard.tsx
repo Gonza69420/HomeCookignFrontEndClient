@@ -157,9 +157,11 @@ const handleSubmitt = () => {
                         <h2 className={"addCardTittle"}> Agregar Tarjeta: </h2>
                     </div>
                     <CardElement/>
-                    <button type="submit" disabled={!stripe}>
-                        Pay
-                    </button>
+                    <div className={"centerPayButton"}>
+                        <button className={"PayButton"} type="submit" disabled={!stripe}>
+                            Pay
+                        </button>
+                    </div>
                 </form>
             </Box>
         </Modal>

@@ -30,3 +30,32 @@
     margin-bottom: 10px !important;
     margin-top: 5% !important;
 }
+
+.PayButton {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.PayButton:hover {
+    background-color: #45a049;
+}
+
+/* Add more styles as needed */
+
+/* You can use data attributes to add custom data to the button */
+.PayButton[data-disabled="true"] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.centerPayButton{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
