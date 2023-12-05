@@ -78,10 +78,10 @@
 }
 #frame #sidepanel #profile .wrap img {
   width: 50px;
+  height: 50px;
   border-radius: 50%;
   padding: 3px;
   border: 2px solid #e74c3c;
-  height: auto;
   float: left;
   cursor: pointer;
   -moz-transition: 0.3s border ease;
@@ -92,6 +92,7 @@
 @media screen and (max-width: 735px) {
   #frame #sidepanel #profile .wrap img {
     width: 40px;
+    height: 40px;
     margin-left: 4px;
   }
 }
@@ -466,6 +467,7 @@ span.status-circle:before {
 }
 #frame #sidepanel #contacts ul li.contact .wrap img {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   float: left;
   margin-right: 10px;
@@ -588,6 +590,7 @@ span.status-circle:before {
 }
 #frame .content .contact-profile img {
   width: 40px;
+  height: 40px;
   border-radius: 50%;
   float: left;
   margin: 9px 12px 0 9px;
@@ -657,6 +660,7 @@ span.status-circle:before {
 }
 #frame .content .messages ul li img {
   width: 22px;
+  height: 22px;
   border-radius: 50%;
   float: left;
 }
