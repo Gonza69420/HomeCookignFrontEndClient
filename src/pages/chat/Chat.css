@@ -21,7 +21,7 @@
   max-width: 340px;
   width: 40%;
   height: 100%;
-  background:rgb(238, 142, 64);
+  background:rgb(255, 109, 45);
   color: #f5f5f5;
   overflow: hidden;
   position: relative;
@@ -43,7 +43,7 @@
     width: 100%;
     margin: 0 auto;
     padding: 5px 0 0 0;
-    background: rgb(238, 142, 64);
+    background: rgb(255, 109, 45);
   }
 }
 #frame #sidepanel #profile.expanded .wrap {
@@ -644,7 +644,7 @@ span.status-circle:before {
 }
 #frame .content .messages ul li.replies p {
   float: left;
-  background: rgb(238, 142, 64);
+  background: rgb(255, 109, 45);
   color: #f5f5f5;
 }
 #frame .content .messages ul li.sent img {
@@ -725,7 +725,7 @@ span.status-circle:before {
   width: 50px;
   padding: 12px 0;
   cursor: pointer;
-  background: rgb(238, 142, 64);
+  background: rgb(255, 109, 45);
   color: #f5f5f5;
   height: 48px;
 }

@@ -8,12 +8,19 @@
     margin-left: 20px;
     padding-bottom: 10px;
     padding-top: 10px;
+    background-color: transparent !important;
+    color: black !important;
+}
+h1 .Tittles{
+    background-color: transparent !important;
+    color: black !important;
 }
 
 .containerTittles .Tittles{
     text-align: left;
     padding: 10px;
-    background-color: rgb(238, 142, 64);
     width: fit-content;
-    color: white;
+    font-family: poppins;
+    background-color: transparent !important;
+    color: black !important;
 }

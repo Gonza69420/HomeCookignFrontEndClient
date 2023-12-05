@@ -14,15 +14,9 @@ export const MenuItems= [
         cName: "nav-link"
 
     },
+   
     {
         id: 3,
-        title:"Pedidos",
-        url: "/pedidosCliente",
-        cName: "nav-link"
-
-    },
-    {
-        id: 4,
         title:"Chats",
         url: "/chat",
         cName: "nav-link"

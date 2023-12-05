@@ -31,7 +31,7 @@ const Navbar = ()=> {
 
           <Bell/>
 
-          <Button onClick={logOutClick}>Log Out</Button>
+          <Button className="logoutButton" style={{ color: 'white' }} onClick={logOutClick}>Log Out</Button>
       </nav>
     )
   }
